@@ -12,8 +12,8 @@ from math import sqrt
 
 def create_grid(images, n, m, width, height, margin, margin_color, shuffle=False):
     
-    img_width = (width-(n-1)*margin)/n
-    img_height = (height-(m-1)*margin)/m
+    img_width = (width-(n+1)*margin)/n
+    img_height = (height-(m+1)*margin)/m
     
     if (n*m > len(images)):
         duplicates = n*m - len(images)

@@ -6,6 +6,7 @@ import urllib3
 import chefkoch2book.picture_grid
 from PIL import Image
 from chefkoch2book import picture_grid
+from symbol import except_clause
 #from chefkoch2book import collage_maker
 
 
@@ -26,30 +27,49 @@ def makelist(table):
     return result
 
 
-
-
-# Create your views here.
 def index(request):
+    return render(request, 'chefkoch2book/index.html', {'text' : 'hallo'})
+
+
+def get_recipe_data(url):
+    
+    recipe = {}
     
     soup = soupify('https://www.chefkoch.de/rezepte/drucken/1108101216891426/2309481a/1/Apfelkuchen-mit-Streuseln-vom-Blech.html')
     content = soup.find("div", {"class": "content-left"})
     
-    ingredients = makelist(soup.find("table", {"class": "incredients"}))
+    recipe['title'] = soup.find("div", {"id": "content"}).find("h1").getText()
+    try:
+        recipe['subtitle'] = soup.find("div", {"id": "content"}).find("strong").getText()
+    except Exception:
+        pass
+    
+    recipe['ingredients'] = makelist(soup.find("table", {"class": "incredients"}))
     imagesdivs = soup.find_all('div', {"class": "gallery-imagewrapper"})
-    recipe_info = content.find("table", {'id':'recipe-info'}).extract()
-    content_pretty = content.prettify()
+    recipe['recipe_info'] = makelist(content.find("table", {'id':'recipe-info'}).extract())
+    recipe['content'] = content.get_text('</br>').replace('\n', '')
     
     images = []
     for imagediv in imagesdivs:
         images.append(imagediv.find('img').get('data-bigimage'))
+    recipe['images'] = images
     
-    ingredientsString = ""
-    for item in ingredients:
-        ingredientsString += str(item)
+    return recipe
+    
+    #ingredientsString = ""
+    #for item in ingredients:
+    #   ingredientsString += str(item)
+
+# Create your views here.
+def get_recipe(request):
+    
+    #url = request.POST['url']
+    
+    output = get_recipe_data('https://www.chefkoch.de/rezepte/drucken/1108101216891426/2309481a/1/Apfelkuchen-mit-Streuseln-vom-Blech.html')
         
-    output = "<div>"+ingredientsString+"</div>" + "<div>"+content_pretty+"<h2>INFO</h2> " + recipe_info.prettify() + "</div>" + '<img src="' + images[0] + '">'#+ "<div>"+ingredients+"</div>"
+    #output = "<div>"+ingredientsString+"</div>" + "<div>"+content_pretty+"<h2>INFO</h2> " + recipe_info.prettify() + "</div>" + '<img src="http://localhost:8000/create/get_collage/j">' #+ "<div>"+ingredients+"</div>"
     
-    return render(request, 'chefkoch2book/index.html', {'text' : output})
+    return render(request, 'chefkoch2book/recipes/normal-preview.html', output)
 
 def soupify(url):
     http = urllib3.PoolManager()
@@ -72,7 +92,7 @@ def get_collage(request, url):
     for imagediv in imagesdivs:
         images.append(imagediv.find('img').get('data-bigimage'))
         
-    collage_image = picture_grid.create_grid(images, 4, 4, 2050, 2700, 10, 0)
+    collage_image = picture_grid.create_grid(images, 4, 4, 1000, 1000, 10, 0)
     
     response = HttpResponse(content_type="image/png")
     collage_image.save(response, "png", dpi=(72,72))
