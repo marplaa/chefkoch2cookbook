@@ -1,5 +1,28 @@
-var recipes = {type: "ch", pos: "0", id: "0", title: 'Hauptrezepte', content: [{type: "r", title:"test"}]  };
+var recipes = [{type: "ch", pos: "0", id: "0", title: 'Hauptrezepte', content: [
+	                          {type: "ch", title:"Backen", content: [
+	                        	  {type:"r", title:"Käsekuchen"},
+	                        	  {type:"r", title:"Käsekuchen"},
+	                        	  {type:"r", title:"Käsekuchen"},
+	                        	  {type:"r", title:"Käsekuchen"}]},
+	                          {type: "ch", title:"Backen", content: [
+	                        	  {type:"r", title:"Käsekuchen"},
+	                        	  {type:"r", title:"Käsekuchen"},
+	                        	  {type:"r", title:"Käsekuchen"},
+	                        	  {type:"r", title:"Käsekuchen"}]}]  },
+	           {type: "ch", pos: "0", id: "0", title: 'Hauptrezepte', content: [
+	        	              {type: "ch", title:"Backen", content: [
+	        	            	  {type:"r", title:"Käsekuchen"},
+	        	            	  {type:"r", title:"Käsekuchen"},
+	        	            	  {type:"r", title:"Käsekuchen"},
+	        	            	  {type:"r", title:"Käsekuchen"}]},
+	        	              {type: "ch", title:"Backen", content: [
+	        	            	  {type:"r", title:"Käsekuchen"},
+	        	            	  {type:"r", title:"Käsekuchen"},
+	        	            	  {type:"r", title:"Käsekuchen"},
+	        	            	  {type:"r", title:"Käsekuchen"}]}]  
+	           }];
 
+var list_str = ""
 
 
 //using jQuery
@@ -45,9 +68,13 @@ function addRecipe(url_str, chapter) {
     
 }
 
-function createRecipeList(chapter) {
+function createRecipeList() {
 	$('#recipe-list').empty();
-	createList(chapter);
+	for (var i=0;i<recipes.length;i++){
+	    createList(recipes[i]);
+	    $('#recipe-list').append(list_str);
+	    list_str = "";
+	}
 }
 
 
@@ -59,13 +86,16 @@ function createList(item) {
 	}
 	
 		if (item.type == "ch") { // unterchapters durchgehen
-			$('#recipe-list').append('<ul class="list-group list-group-flush" id="sublist-chapter-' + item.id + '"><li class="list-group-item"><b>' + item.title+ '</b></li>');
-			for (i=0;i<item.content.length;i++){
+			list_str = list_str.concat('<span style="margin: 5px;"><b>' + item.title + '</b></span><ul class="list-group" id="sublist-chapter-' + item.id + '">');
+			
+			for (var i=0;i<item.content.length;i++){
+				list_str = list_str.concat('<li class="list-group-item">');
 				createList(item.content[i]);
+				list_str =list_str.concat('</li>')
 			}
-			$('#recipe-list').append('</ul>')
+			list_str =list_str.concat('</ul>')
 		} else {
-			    $('#recipe-list').append('<li class="list-group-item">' + item.title + '</li>');	
+			list_str =list_str.concat(item.title);	
 		}		
 }
 
@@ -82,5 +112,5 @@ function newRecipeData(jsonData, chapter) {
 		}
 		
 	}
-	createRecipeList(recipes);
+	createRecipeList();
 }
