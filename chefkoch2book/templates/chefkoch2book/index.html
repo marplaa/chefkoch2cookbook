@@ -1,46 +1,157 @@
 {% load static %}
+
+
+
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-<meta charset="UTF-8">
-<title>Insert title here</title>
-<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" integrity="sha384-WskhaSGFgHYWDcbwN70/dfYBj47jz9qbsMId/iRN3ewGhXQFZCSftd1LZCfmhktB" crossorigin="anonymous">
+<meta charset="utf-8">
+<meta name="viewport"
+	content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta name="description" content="">
+<meta name="author" content="">
+<link rel="icon" href="../../favicon.ico">
+
+<title>Chefkoch zu Kochbuch</title>
+
+
+<link rel="stylesheet"
+	href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css"
+	integrity="sha384-WskhaSGFgHYWDcbwN70/dfYBj47jz9qbsMId/iRN3ewGhXQFZCSftd1LZCfmhktB"
+	crossorigin="anonymous">
 <link rel="stylesheet" href="{% static 'chefkoch2book/css/style.css' %}">
+
+
+
+<script src="https://code.jquery.com/jquery-3.3.1.min.js"
+	integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
+	crossorigin="anonymous"></script>
 
 <!-- Main Quill library -->
 <script src="//cdn.quilljs.com/1.3.6/quill.min.js"></script>
-
-<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+<script src="{% static 'chefkoch2book/js/recipes.js' %}"></script>
 
 <!-- Theme included stylesheets -->
 <link href="//cdn.quilljs.com/1.3.6/quill.bubble.css" rel="stylesheet">
 
 
-
-
 </head>
+
 <body>
 
-<div style="width:800px; height:1000px" id="editor">
-</div>
+	<div class="container">
+		<div class="header clearfix">
+			<nav>
+				<ul class="nav nav-pills float-right">
+					<li class="nav-item"><a class="nav-link active" href="#">Home
+							<span class="sr-only">(current)</span>
+					</a></li>
+					<li class="nav-item"><a class="nav-link" href="#">About</a></li>
+					<li class="nav-item"><a class="nav-link" href="#">Contact</a>
+					</li>
+				</ul>
+			</nav>
+			<h3 class="text-muted">Chefkoch zu Kochbuch</h3>
+		</div>
 
-{{ text|safe }}
+		<div id="chapters-card" class="card">
+			<div class="card-header">
+				Kapitel erstellen<img
+					src="{% static 'chefkoch2book/icons/interface/svg/list.svg' %}"
+					class="icon float-right">
+			</div>
+			<div class="card-body">
+				<h5 class="card-title">Erstelle hier die Kapitel für dein
+					Kochbuch</h5>
+				<p class="card-text"></p>
+				<form>
+					<div class="input-group">
+						<input type="text" class="form-control"
+							aria-label="Text input with dropdown button">
+						<div class="input-group-append">
+							<button class="btn btn-outline-secondary dropdown-toggle"
+								type="button" data-toggle="dropdown" aria-haspopup="true"
+								aria-expanded="false">Erstellen unter</button>
+							<div class="dropdown-menu">
+								<a class="dropdown-item" href="#">Action</a> <a
+									class="dropdown-item" href="#">Another action</a> <a
+									class="dropdown-item" href="#">Something else here</a>
+								<div role="separator" class="dropdown-divider"></div>
+								<a class="dropdown-item" href="#">Separated link</a>
+							</div>
+						</div>
+					</div>
+
+				</form>
 
 
+			</div>
 
-<script>
+			<ul class="list-group list-group-flush" id="chapters-list">
+				<li class="list-group-item">Cras justo odio</li>
+				<li class="list-group-item">Dapibus ac facilisis in</li>
+				<li class="list-group-item">Vestibulum at eros</li>
+			</ul>
+		</div>
 
-var options = {
-		  debug: 'info',
-		  placeholder: 'Compose an epic...',
-		  readOnly: false,
-		  theme: 'bubble'
-		};
-var editor = new Quill('#editor', options);
-</script>
+		<div id="recipes-card" class="card">
+			<div class="card-header">
+				Rezepte auswählen<img
+					src="{% static 'chefkoch2book/icons/interface/svg/list.svg' %}"
+					class="icon float-right">
+			</div>
+			<div class="card-body">
+				<h5 class="card-title">Welche Rezepte sollen für dein Kochbuch
+					zusammengestellt werden?</h5>
+				<p class="card-text">Gib hier eine Liste von Links zu den
+					Druckseiten der Rezepte an. Wie genau du das tun kannst, erfährst
+					du in diesem Video.</p>
+				<form>
+					<div class="form-group">
+						<label for="recipes_url_list">Rezeptlinks</label>
+						<textarea class="form-control" id="recipes_url_list" rows="5">https://www.chefkoch.de/rezepte/drucken/1108101216891426/2309481a/1/Apfelkuchen-mit-Streuseln-vom-Blech.html</textarea>
+					</div>
 
-<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
-<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js" integrity="sha384-smHYKdLADwkXOn1EmN1qk/HfnUcbVRZyYmZ4qpPea6sjB/pTJ0euyQp0Mk8ck+5T" crossorigin="anonymous"></script>
+				</form>
+
+				<div class="dropdown float-right" id="chapter-selection">
+					<a class="btn btn-secondary dropdown-toggle" href="#" role="button"
+						id="addRecipeButton" data-toggle="dropdown" aria-haspopup="true"
+						aria-expanded="false"> Dropdown link </a>
+
+					<div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+						<a class="dropdown-item" onclick="addRecipe('https://www.chefkoch.de/rezepte/drucken/1108101216891426/2309481a/1/Apfelkuchen-mit-Streuseln-vom-Blech.html', '0')">Action</a> <a
+							class="dropdown-item" href="#">Another action</a> <a
+							class="dropdown-item" href="#">Something else here</a>
+					</div>
+				</div>
+
+				<div class="clearfix"></div>
+
+			</div>
+
+			<ul class="list-group list-group-flush" id="recipe-list">
+				<li class="list-group-item">Cras justo odio</li>
+				<li class="list-group-item">Dapibus ac facilisis in</li>
+				<li class="list-group-item">Vestibulum at eros</li>
+			</ul>
+		</div>
+	</div>
+
+
+	<footer class="footer">
+		<p>&copy; Company 2017</p>
+	</footer>
+
+	<script
+		src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js"
+		integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49"
+		crossorigin="anonymous"></script>
+	<script
+		src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js"
+		integrity="sha384-smHYKdLADwkXOn1EmN1qk/HfnUcbVRZyYmZ4qpPea6sjB/pTJ0euyQp0Mk8ck+5T"
+		crossorigin="anonymous"></script>
+
 
 
 </body>

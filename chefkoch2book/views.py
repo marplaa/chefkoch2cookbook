@@ -1,5 +1,7 @@
 from django.shortcuts import render
-from django.http import HttpResponse
+from django.http import HttpResponse, JsonResponse
+from django.views.decorators.csrf import ensure_csrf_cookie
+import re
 
 from bs4 import BeautifulSoup
 import urllib3
@@ -7,6 +9,7 @@ import chefkoch2book.picture_grid
 from PIL import Image
 from chefkoch2book import picture_grid
 from symbol import except_clause
+import json
 #from chefkoch2book import collage_maker
 
 
@@ -19,14 +22,15 @@ def makelist(table):
         for col in allcols:
             thestrings=[]
             thestring =""
-            for thestring in col.findAll(text=True):
-                thestring = thestring.replace('\n', '')
+            for thestring in col.stripped_strings:
+                thestring = re.sub(r'\s+',' ',thestring)
+                #thestring = thestring.replace('\n', '')
                 thestrings.append(thestring)
             thetext = ''.join(thestrings)
             result[-1].append(thetext)
     return result
 
-
+@ensure_csrf_cookie
 def index(request):
     return render(request, 'chefkoch2book/index.html', {'text' : 'hallo'})
 
@@ -47,7 +51,7 @@ def get_recipe_data(url):
     recipe['ingredients'] = makelist(soup.find("table", {"class": "incredients"}))
     imagesdivs = soup.find_all('div', {"class": "gallery-imagewrapper"})
     recipe['recipe_info'] = makelist(content.find("table", {'id':'recipe-info'}).extract())
-    recipe['content'] = content.get_text('</br>').replace('\n', '')
+    recipe['content'] = re.sub(r'\s+',' ',content.get_text('</br>', strip=True)).replace('\n', '')
     
     images = []
     for imagediv in imagesdivs:
@@ -59,6 +63,12 @@ def get_recipe_data(url):
     #ingredientsString = ""
     #for item in ingredients:
     #   ingredientsString += str(item)
+
+
+def get_recipe_data_json(request):
+    url = request.POST['url'];
+    recipe_data = get_recipe_data(url)
+    return JsonResponse(recipe_data)
 
 # Create your views here.
 def get_recipe(request):
