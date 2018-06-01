@@ -37,9 +37,9 @@ def index(request):
 
 def get_recipe_data(url):
     
-    recipe = {}
+    recipe = {"url": url}
     
-    soup = soupify('https://www.chefkoch.de/rezepte/drucken/1108101216891426/2309481a/1/Apfelkuchen-mit-Streuseln-vom-Blech.html')
+    soup = soupify(url)
     content = soup.find("div", {"class": "content-left"})
     
     recipe['title'] = soup.find("div", {"id": "content"}).find("h1").getText()

@@ -1,31 +1,51 @@
-var recipes = [{type: "ch", pos: "0", id: "0", title: 'Hauptrezepte', content: [
-	                          {type: "ch", title:"Backen", content: [
-	                        	  {type:"r", title:"Käsekuchen"},
-	                        	  {type:"r", title:"Käsekuchen"},
-	                        	  {type:"r", title:"Käsekuchen"},
-	                        	  {type:"r", title:"Käsekuchen"}]},
-	                          {type: "ch", title:"Backen", content: [
-	                        	  {type:"r", title:"Käsekuchen"},
-	                        	  {type:"r", title:"Käsekuchen"},
-	                        	  {type:"r", title:"Käsekuchen"},
-	                        	  {type:"r", title:"Käsekuchen"}]}]  },
-	           {type: "ch", pos: "0", id: "0", title: 'Hauptrezepte', content: [
-	        	              {type: "ch", title:"Backen", content: [
-	        	            	  {type:"r", title:"Käsekuchen"},
-	        	            	  {type:"r", title:"Käsekuchen"},
-	        	            	  {type:"r", title:"Käsekuchen"},
-	        	            	  {type:"r", title:"Käsekuchen"}]},
-	        	              {type: "ch", title:"Backen", content: [
-	        	            	  {type:"r", title:"Käsekuchen"},
-	        	            	  {type:"r", title:"Käsekuchen"},
-	        	            	  {type:"r", title:"Käsekuchen"},
-	        	            	  {type:"r", title:"Käsekuchen"}]}]  
+var recipes = [{type: "ch", pos: "0", id: "hauptrezepte", title:"Hauptrezepte",text: 'Hauptrezepte <a href="#" class="float-right"><i class="fas fa-minus-square"></i></a><a href="#" class="float-right"><i class="fas fa-plus"></i></a>', nodes: [
+	                          {type: "ch", id: "backen", title:"Backen", text:"Backen <a onclick='showRecipeModal(\"hauptrezepte-backen\")' href='#' class='float-right'><i class='fas fa-plus-square fa-lg' style='color: green'></i></a>", nodes: [
+	                        	  {type:"r", text:"Käsekuchen <a onclick='getChapterFromString(\"hauptrezepte-backen\")' href='#' class='float-right'>test</a>"},
+	                        	  {type:"r", text:"Käsekuchen"},
+	                        	  {type:"r", text:"Käsekuchen"},
+	                        	  {type:"r", text:"Käsekuchen<b>hhh</b>"}]},
+	                          {type: "ch", text:"Backen", nodes: [
+	                        	  {type:"r", text:"Käsekuchen"},
+	                        	  {type:"r", text:"Käsekuchen"},
+	                        	  {type:"r", text:"Käsekuchen"},
+	                        	  {type:"r", text:"Käsekuchen"}]}]  },
+	           {type: "ch", pos: "0", id: "0", text: 'Hauptrezepte', nodes: [
+	        	              {type: "ch", text:"Backen", nodes: [
+	        	            	  {type:"r", text:"Käsekuchen"},
+	        	            	  {type:"r", text:"Käsekuchen"},
+	        	            	  {type:"r", text:"Käsekuchen"},
+	        	            	  {type:"r", text:"Käsekuchen"}]},
+	        	              {type: "ch", text:"Backen", nodes: [
+	        	            	  {type:"r", text:"Käsekuchen"},
+	        	            	  {type:"r", text:"Käsekuchen"},
+	        	            	  {type:"r", text:"Käsekuchen"},
+	        	            	  {type:"r", text:"Käsekuchen"}]}]  
 	           }];
 
 var list_str = ""
+	
+var tree_view_options = 
+{
+		data: getRecipeTree(), 
+		levels: 2, 
+		expandIcon:'fas fa-angle-down',
+		collapseIcon:'fas fa-angle-up',
+		emptyIcon:'far fa-file',
+			
+}
+
+$(document).ready(document_ready);	
+
+function document_ready() { 
+	$('#recipe-tree').treeview(tree_view_options); 
+	$('#recipe-tree').treeview('expandAll', { levels: 2, silent: true });
+}
 
 
-//using jQuery
+function getRecipeTree() {
+	return recipes;
+}
+
 function getCookie(name) {
     var cookieValue = null;
     if (document.cookie && document.cookie !== '') {
@@ -57,7 +77,7 @@ $.ajaxSetup({
 
 
 
-function addRecipe(url_str, chapter) {
+function getRecipeData(url_str, chapter) {
 	
 	$.ajax({
 		type : 'POST',
@@ -99,18 +119,47 @@ function createList(item) {
 		}		
 }
 
-function newRecipeData(jsonData, chapter) {
-	//alert(JSON.stringify(jsonData));
-	//recipes.push(jsonData);
-	chapters = chapter.split("-");
-	currentChapter = recipes;
-	for (i=0; i<chapters.length; i++) {
-		for (j=0; j<currentChapter.length; j++){
-			if (currentChapter.id == chapters[i]){
-				currentChapter = currentChapter[chapters[i]];
-			}
-		}
-		
-	}
-	createRecipeList();
+function newRecipeData(jsonData, chapterString) {
+	saveRecipe(jsonData, chapterString);
 }
+
+
+
+function getChapterFromString(chapter) {
+	var path = chapter.split("-");
+	var currentChapter = recipes;
+	
+	for (var i = 0; i< path.length-1;i++) {
+		currentChapter = _.findWhere(currentChapter, {id : path[i]}).nodes;
+	}
+	currentChapter = _.findWhere(currentChapter, {id : path[i]});
+	
+	//alert(currentChapter["text"]);
+	return currentChapter;
+}
+
+function showRecipeModal(chapterString) {
+	var chapter = getChapterFromString(chapterString);
+	$('#modal-title-chapter').text(chapter.title);
+	$('#url-list-chapter').val(chapterString);
+	$('#recipes-url-modal').modal('show');
+}
+
+function addRecipe() {
+	var data = $('#add-recipes-urls').serializeArray();
+	getRecipeData($('#recipes_url_list').val(), $('#url-list-chapter').val());
+}
+
+function saveRecipe(recipeData, chapterString){
+	var chapter = getChapterFromString(chapterString);
+	recipeData['text'] = recipeData.title;
+	chapter["nodes"].push(recipeData);
+	chapter["nodes"] = _.sortBy(chapter["nodes"], 'name');
+	$('#recipe-tree').treeview(tree_view_options); 
+}
+
+
+
+
+
+
