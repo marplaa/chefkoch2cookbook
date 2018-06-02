@@ -1,7 +1,4 @@
 {% load static %}
-
-
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -22,7 +19,7 @@
 	href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css"
 	integrity="sha384-WskhaSGFgHYWDcbwN70/dfYBj47jz9qbsMId/iRN3ewGhXQFZCSftd1LZCfmhktB"
 	crossorigin="anonymous">
-	
+
 <script src="{% static 'chefkoch2book/js/underscore.js' %}"></script>
 
 <link rel="stylesheet"
@@ -74,9 +71,17 @@
 					class="icon float-right">
 			</div>
 			<div class="card-body">
-				<h5 class="card-title">Erstelle hier die Kapitel für dein
-					Kochbuch</h5>
-				<p class="card-text"></p>
+				<h5 class="card-title">
+					Erstelle hier die Kapitel für dein Kochbuch
+				</h5>
+				
+				<p class="card-text"><a
+						onclick="showChapterModal('');" href="#"
+						class="recipe-list-button float-right"><i
+						class="fas fa-plus-square fa-lg" style="color: green"></i>Kapitel
+						hinzufügen</a></p>
+
+
 
 				<div id="recipe-tree"></div>
 
@@ -125,10 +130,7 @@
 				<p class="card-text">Gib hier eine Liste von Links zu den
 					Druckseiten der Rezepte an. Wie genau du das tun kannst, erfährst
 					du in diesem Video.</p>
-				<form>
-
-
-				</form>
+				<form></form>
 
 				<div class="dropdown float-right" id="chapter-selection">
 					<a class="btn btn-secondary dropdown-toggle" href="#" role="button"
@@ -176,7 +178,9 @@
 		<div class="modal-dialog" role="document">
 			<div class="modal-content">
 				<div class="modal-header">
-					<h5 class="modal-title">Neue Rezepte unter <span id="modal-title-chapter"></span></h5>
+					<h5 class="modal-title">
+						Neue Rezepte unter <span id="modal-title-chapter"></span>
+					</h5>
 					<button type="button" class="close" data-dismiss="modal"
 						aria-label="Close">
 						<span aria-hidden="true">&times;</span>
@@ -186,7 +190,7 @@
 					<p>Gib hier den Link oder eine durch ; getrennte Liste von
 						Links zum Rezept oder den Rezepten auf Chefkoch an:</p>
 					<form id="add-recipes-urls">
-					
+
 						<input type="hidden" id="url-list-chapter" name="chapter" value="">
 						<div class="form-group">
 							<label for="recipes_url_list">Rezeptlinks</label>
@@ -198,7 +202,44 @@
 				<div class="modal-footer">
 					<button type="button" class="btn btn-secondary"
 						data-dismiss="modal">Close</button>
-					<button type="button" class="btn btn-primary" onclick="addRecipe();">Save changes</button>
+					<button type="button" class="btn btn-primary"
+						onclick="addRecipe();">Save changes</button>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<div class="modal" tabindex="-1" role="dialog" id="chapter-modal">
+		<div class="modal-dialog" role="document">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h5 class="modal-title">
+						Neues Kapitel unter <span id="chapter-modal-title-chapter"></span>
+					</h5>
+					<button type="button" class="close" data-dismiss="modal"
+						aria-label="Close">
+						<span aria-hidden="true">&times;</span>
+					</button>
+				</div>
+				<div class="modal-body">
+					<p>Gib hier den Link oder eine durch ; getrennte Liste von
+						Links zum Rezept oder den Rezepten auf Chefkoch an:</p>
+					<form id="add-chapter">
+
+						<input type="hidden" id="new-chapter-parent" name="chapter"
+							value="">
+						<div class="form-group">
+							<label for="new_chapter_input">Rezeptlinks</label> <input
+								type="text" class="form-control" id="new_chapter_input"></input>
+						</div>
+
+					</form>
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-secondary"
+						data-dismiss="modal">Close</button>
+					<button type="button" class="btn btn-primary"
+						onclick="addChapter();">Save changes</button>
 				</div>
 			</div>
 		</div>

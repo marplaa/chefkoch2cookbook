@@ -1,6 +1,8 @@
 @charset "UTF-8";
 
-
+.recipe-list-button {
+	margin-left:3px;
+}
 
 /* Space out content a bit */
 body {

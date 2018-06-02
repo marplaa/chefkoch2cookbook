@@ -1,6 +1,6 @@
-var recipes = [{type: "ch", pos: "0", id: "hauptrezepte", title:"Hauptrezepte",text: "Hauptrezepte <a href="#" class="float-right"><i class="fas fa-minus-square"></i></a><a href="#" class="float-right"><i class="fas fa-plus"></i></a>", nodes: [
-	                          {type: "ch", id: "backen", title:"Backen", text:"Backen <a onclick="showRecipeModal(\"hauptrezepte-backen\")" href="#" class="float-right"><i class="fas fa-plus-square fa-lg" style="color: green"></i></a>", nodes: [
-	                        	  {type:"r", text:"Käsekuchen <a onclick="getChapterFromString(\"hauptrezepte-backen\")" href="#" class="float-right">test</a>"},
+var recipes = [{type: "ch", pos: "0", id: "hauptrezepte", title:"Hauptrezepte",text: 'Hauptrezepte <a href="#" class="float-right"><i class="fas fa-minus-square"></i></a><a href="#" class="float-right"><i class="fas fa-plus"></i></a>', nodes: [
+	                          {type: "ch", id: "backen", title:"Backen", text:'Backen <a onclick="showRecipeModal(\'hauptrezepte-backen\')" href="#" class="float-right"><i class="fas fa-plus-square fa-lg" style="color: green"></i></a>', nodes: [
+	                        	  {type:"r", text:'Käsekuchen <a onclick="getChapterFromString(\"hauptrezepte-backen\")" href="#" class="float-right">test</a>'},
 	                        	  {type:"r", text:"Käsekuchen"},
 	                        	  {type:"r", text:"Käsekuchen"},
 	                        	  {type:"r", text:"Käsekuchen<b>hhh</b>"}]},
@@ -25,7 +25,8 @@ var recipes = [{type: "ch", pos: "0", id: "hauptrezepte", title:"Hauptrezepte",t
 var list_str = ""
 	
 String.prototype.hashCode = function() {
-    var hash = 0;
+
+    var hash = Math.floor(Math.random()*100);
     if (this.length == 0) {
         return hash;
     }
@@ -34,7 +35,7 @@ String.prototype.hashCode = function() {
         hash = ((hash<<5)-hash)+char;
         hash = hash & hash; // Convert to 32bit integer
     }
-    return hash;
+    return String(Math.abs(hash));
 }
 	
 var tree_view_options = 
@@ -119,10 +120,10 @@ function createList(item) {
 	}
 	
 		if (item.type == "ch") { // unterchapters durchgehen
-			list_str = list_str.concat("<span style="margin: 5px;"><b>" + item.title + "</b></span><ul class="list-group" id="sublist-chapter-" + item.id + "">");
+			list_str = list_str.concat('<span style="margin: 5px;"><b>" + item.title + "</b></span><ul class="list-group" id="sublist-chapter-" + item.id + "">');
 			
 			for (var i=0;i<item.content.length;i++){
-				list_str = list_str.concat("<li class="list-group-item">");
+				list_str = list_str.concat('<li class="list-group-item">');
 				createList(item.content[i]);
 				list_str =list_str.concat("</li>")
 			}
@@ -139,8 +140,15 @@ function newRecipeData(jsonData, chapterString) {
 
 
 function getChapterFromString(chapter) {
+	
+	if (chapter.length == 0){
+		return recipes;
+	}
+	
 	var path = chapter.split("-");
 	var currentChapter = recipes;
+	
+
 	
 	for (var i = 0; i< path.length-1;i++) {
 		currentChapter = _.findWhere(currentChapter, {id : path[i]}).nodes;
@@ -152,7 +160,13 @@ function getChapterFromString(chapter) {
 }
 
 function getChapterFromArray(path) {
+	
+	if (chapter.length == 0){
+		return recipes;
+	}
+	
     var currentChapter = recipes;
+    
 	
 	for (var i = 0; i< path.length-1;i++) {
 		currentChapter = _.findWhere(currentChapter, {id : path[i]}).nodes;
@@ -172,6 +186,13 @@ function showRecipeModal(chapterString) {
 	$("#recipes-url-modal").modal("show");
 }
 
+function showChapterModal(chapterString) {
+	var chapter = getChapterFromString(chapterString);
+	$("#chapter-modal-title-chapter").text(chapter.title);
+	$("#new-chapter-parent").val(chapterString);
+	$("#chapter-modal").modal("show");
+}
+
 function addRecipe() {
 	var urls = $("#recipes_url_list").val().replace(/\s|\n/g, "").split(";");
 	var chapter = $("#url-list-chapter").val();
@@ -181,11 +202,20 @@ function addRecipe() {
 	// getRecipeData(, $("#url-list-chapter").val());
 }
 
+function addChapter() {
+	var title = $("#new_chapter_input").val();
+	var parentChapter = $("#new-chapter-parent").val();
+	
+	newChapter(title, parentChapter);
+
+}
+
 function saveRecipe(recipeData, chapterString){
 	var chapter = getChapterFromString(chapterString);
 	var id = recipeData.title.hashCode();
-	dataText = recipeData.title + '<a onclick="deleteRecipe(\"' + chapterString + '-' +  + '\")" href="#" class="float-right"><i class="fas fa-plus-square fa-lg" style="color: green"></i></a>'
-	recipeData["text"] = recipeData.title;
+	var dataText = recipeData.title + '<a onclick="deleteRecipe(\'' + chapterString + '-' + id + '\')" href="#" class="float-right"><i class="fas fa-minus-square fa-lg" style="color: gray"></i></a>';
+	recipeData["text"] = dataText;
+	recipeData["id"] = id;
 	
 	chapter["nodes"].push(recipeData);
 	chapter["nodes"] = _.sortBy(chapter["nodes"], "title");
@@ -193,11 +223,31 @@ function saveRecipe(recipeData, chapterString){
 	$("#recipe-tree").treeview("expandAll", { levels: 2, silent: true });
 }
 
+function newChapter(title, chapterString){
+	var parentChapter = getChapterFromString(chapterString);
+	var id = title.hashCode();
+	var dataText = title + '<a onclick="showRecipeModal(\'' + chapterString + '-' + id + '\')" href="#" class="recipe-list-button float-right"><i class="fas fa-plus-square fa-lg" style="color: green"></i>Rezept hinzufügen</a> <a onclick="showChapterModal(\'' + chapterString + '-' + id + '\')" href="#" class="recipe-list-button float-right"><i class="fas fa-plus-square fa-lg" style="color: green"></i>Kapitel hinzufügen</a> <a onclick="deleteChapter(\'' + chapterString + '-' + id + '\')" href="#" class="recipe-list-button float-right"><i class="fas fa-minus-square fa-lg" style="color: gray"></i></a>' ;
+	var chapter = {};
+	chapter["text"] = dataText;
+	chapter["title"] = title;
+	chapter["id"] = id;
+	
+	if (chapterString.length==0) {
+		parentChapter.push(chapter);
+	} else {
+		parentChapter.nodes.push(chapter);
+	}
+
+	$("#recipe-tree").treeview(tree_view_options); 
+	$("#recipe-tree").treeview("expandAll", { levels: 2, silent: true });
+}
+
 function deleteRecipe(recipeString) {
-	var path = chapter.split("-");
+	var path = recipeString.split("-");
 	var chapter = getChapterFromArray(_.first(path,path.length-1));
-	var recipe = _.findWhere(chapter, {id : path[path.length-1]});
-	chapter = _.without(chapter, recipe);
+	var pathid = path[path.length-1];
+	var recipe = _.findWhere(chapter["nodes"], {id : path[path.length-1]});
+	chapter["nodes"] = _.without(chapter["nodes"], recipe);
 	$("#recipe-tree").treeview(tree_view_options); 
 	$("#recipe-tree").treeview("expandAll", { levels: 2, silent: true });
 }
