@@ -76,7 +76,7 @@
 				</h5>
 				
 				<p class="card-text"><a
-						onclick="showChapterModal('');" href="#"
+						onclick="showChapterModal('0');" href="#"
 						class="recipe-list-button"><i
 						class="fas fa-plus-square fa-lg" style="color: green"></i>Hauptkapitel
 						hinzufügen</a></p>
@@ -84,27 +84,11 @@
 
 
 				<div id="recipe-tree"></div>
-
-
-				<form>
-					<div class="input-group">
-						<input type="text" class="form-control"
-							aria-label="Text input with dropdown button">
-						<div class="input-group-append">
-							<button class="btn btn-outline-secondary dropdown-toggle"
-								type="button" data-toggle="dropdown" aria-haspopup="true"
-								aria-expanded="false">Erstellen unter</button>
-							<div class="dropdown-menu">
-								<a class="dropdown-item" href="#">Action</a> <a
-									class="dropdown-item" href="#">Another action</a> <a
-									class="dropdown-item" href="#">Something else here</a>
-								<div role="separator" class="dropdown-divider"></div>
-								<a class="dropdown-item" href="#">Separated link</a>
-							</div>
-						</div>
-					</div>
-
-				</form>
+				
+				<div style="margin-top: 10px">
+				<a class="btn btn-secondary float-right" href="#" onclick="downloadBook();"><i class="fas fa-download"></i> Download</a>
+				</div>
+ 
 
 
 			</div>
@@ -244,6 +228,8 @@
 			</div>
 		</div>
 	</div>
+	
+	<a id="download-book"></a>
 
 
 </body>

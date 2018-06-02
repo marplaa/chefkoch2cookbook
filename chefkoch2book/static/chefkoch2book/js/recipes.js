@@ -1,4 +1,4 @@
-var recipes = [{id : "0", title: "Kochbuch", text: 'Kochbuch<a onclick="showChapterModal(\'\')" href="#" class="recipe-list-button float-right"><i class="fas fa-plus-square fa-lg" style="color: green"></i>Kapitel hinzufügen</a>', nodes : []}];
+var recipes = [{id : "0", title: "Kochbuch", text: 'Kochbuch<a onclick="showChapterModal(\'0\')" href="#" class="recipe-list-button float-right"><i class="fas fa-plus-square fa-lg" style="color: green"></i>Kapitel hinzufügen</a>', nodes : []}];
 
 var list_str = ""
 	
@@ -30,7 +30,7 @@ $(document).ready(document_ready);
 
 function document_ready() { 
 	$("#recipe-tree").treeview(tree_view_options); 
-	$("#recipe-tree").treeview("expandAll", { levels: 2, silent: true });
+	$("#recipe-tree").treeview("expandAll", {  silent: true });
 }
 
 
@@ -119,19 +119,17 @@ function newRecipeData(jsonData, chapterString) {
 
 function getChapterFromString(chapter) {
 	
-	if (chapter.length == 0){
-		return recipes;
+	if (chapter == "0"){
+		return recipes[0];
 	}
 	
 	var path = chapter.split("-");
-	var currentChapter = recipes;
+	var currentChapter = recipes[0];
 	
-
-	
-	for (var i = 0; i< path.length-1;i++) {
-		currentChapter = _.findWhere(currentChapter, {id : path[i]}).nodes;
+	for (var i = 1; i< path.length-1;i++) {
+		currentChapter = _.findWhere(currentChapter.nodes, {id : path[i]});
 	}
-	currentChapter = _.findWhere(currentChapter, {id : path[i]});
+	currentChapter = _.findWhere(currentChapter.nodes, {id : path[i]});
 	
 	// alert(currentChapter["text"]);
 	return currentChapter;
@@ -139,17 +137,17 @@ function getChapterFromString(chapter) {
 
 function getChapterFromArray(path) {
 	
-	if (path.length == 0){
-		return recipes;
+	if (path == "0"){
+		return recipes[0];
 	}
 	
-    var currentChapter = recipes;
+    var currentChapter = recipes[0];
     
 	
-	for (var i = 0; i< path.length-1;i++) {
-		currentChapter = _.findWhere(currentChapter, {id : path[i]}).nodes;
+	for (var i = 1; i< path.length-1;i++) {
+		currentChapter = _.findWhere(currentChapter.nodes, {id : path[i]});
 	}
-	currentChapter = _.findWhere(currentChapter, {id : path[i]});
+	currentChapter = _.findWhere(currentChapter.nodes, {id : path[i]});
 	
 	// alert(currentChapter["text"]);
 	return currentChapter;
@@ -198,26 +196,24 @@ function saveRecipe(recipeData, chapterString){
 	chapter["nodes"].push(recipeData);
 	chapter["nodes"] = _.sortBy(chapter["nodes"], "title");
 	$("#recipe-tree").treeview(tree_view_options); 
-	$("#recipe-tree").treeview("expandAll", { levels: 2, silent: true });
+	$("#recipe-tree").treeview("expandAll", {  silent: true });
 }
 
 function newChapter(title, chapterString){
 	var parentChapter = getChapterFromString(chapterString);
 	var id = title.hashCode();
-	var dataText = title + '<a onclick="showRecipeModal(\'' + chapterString + '-' + id + '\')" href="#" class="recipe-list-button float-right"><i class="fas fa-plus-square fa-lg" style="color: green"></i>Rezept hinzufügen</a> <a onclick="showChapterModal(\'' + chapterString + '-' + id + '\')" href="#" class="recipe-list-button float-right"><i class="fas fa-plus-square fa-lg" style="color: green"></i>Kapitel hinzufügen</a> <a onclick="deleteChapter(\'' + chapterString + '-' + id + '\')" href="#" class="recipe-list-button float-right"><i class="fas fa-minus-square fa-lg" style="color: gray"></i></a>' ;
+	var dataText = title + '<a onclick="showRecipeModal(\'' + chapterString + '-' + id + '\')" href="#" class="recipe-list-button float-right"><i class="fas fa-plus-square fa-lg" style="color: green"></i>Rezept</a> <a onclick="showChapterModal(\'' + chapterString + '-' + id + '\')" href="#" class="recipe-list-button float-right"><i class="fas fa-plus-square fa-lg" style="color: green"></i>Kapitel</a> <a onclick="deleteChapter(\'' + chapterString + '-' + id + '\')" href="#" class="recipe-list-button float-right"><i class="fas fa-minus-square fa-lg" style="color: gray"></i></a>' ;
 	var chapter = {};
 	chapter["text"] = dataText;
 	chapter["title"] = title;
 	chapter["id"] = id;
+	chapter["nodes"]=[];
 	
-	if (chapterString.length==0) {
-		parentChapter.push(chapter);
-	} else {
-		parentChapter.nodes.push(chapter);
-	}
-
+	parentChapter.nodes.push(chapter);
+	
+	parentChapter["nodes"] = _.sortBy(parentChapter["nodes"], "title");
 	$("#recipe-tree").treeview(tree_view_options); 
-	$("#recipe-tree").treeview("expandAll", { levels: 2, silent: true });
+	$("#recipe-tree").treeview("expandAll", {  silent: true });
 }
 
 function deleteRecipe(recipeString) {
@@ -227,17 +223,17 @@ function deleteRecipe(recipeString) {
 	var recipe = _.findWhere(chapter["nodes"], {id : path[path.length-1]});
 	chapter["nodes"] = _.without(chapter["nodes"], recipe);
 	$("#recipe-tree").treeview(tree_view_options); 
-	$("#recipe-tree").treeview("expandAll", { levels: 2, silent: true });
+	$("#recipe-tree").treeview("expandAll", { silent: true });
 }
 
 function deleteChapter(chapterString) {
 	var path = chapterString.split("-");
 	var parentChapter = getChapterFromArray(_.first(path,path.length-1));
-	//var pathid = path[path.length-1];
+	var pathid = path[path.length-1];
 	var chapter = _.findWhere(parentChapter["nodes"], {id : path[path.length-1]});
 	parentChapter["nodes"] = _.without(parentChapter["nodes"], chapter);
 	$("#recipe-tree").treeview(tree_view_options); 
-	$("#recipe-tree").treeview("expandAll", { levels: 2, silent: true });
+	$("#recipe-tree").treeview("expandAll", { silent: true });
 }
 	
 
@@ -246,4 +242,11 @@ function deleteChapter(chapterString) {
 
 
 
+function downloadBook() {
+var a = document.getElementById("download-book");
+var file = new Blob([JSON.stringify(recipes)], {type: 'text/plain'});
+a.href = URL.createObjectURL(file);
+a.download = "Kochbuch.txt";
+a.click();
+}
 
