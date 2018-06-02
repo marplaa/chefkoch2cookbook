@@ -1,26 +1,4 @@
-var recipes = [{type: "ch", pos: "0", id: "hauptrezepte", title:"Hauptrezepte",text: 'Hauptrezepte <a href="#" class="float-right"><i class="fas fa-minus-square"></i></a><a href="#" class="float-right"><i class="fas fa-plus"></i></a>', nodes: [
-	                          {type: "ch", id: "backen", title:"Backen", text:'Backen <a onclick="showRecipeModal(\'hauptrezepte-backen\')" href="#" class="float-right"><i class="fas fa-plus-square fa-lg" style="color: green"></i></a>', nodes: [
-	                        	  {type:"r", text:'Käsekuchen <a onclick="getChapterFromString(\"hauptrezepte-backen\")" href="#" class="float-right">test</a>'},
-	                        	  {type:"r", text:"Käsekuchen"},
-	                        	  {type:"r", text:"Käsekuchen"},
-	                        	  {type:"r", text:"Käsekuchen<b>hhh</b>"}]},
-	                          {type: "ch", text:"Backen", nodes: [
-	                        	  {type:"r", text:"Käsekuchen"},
-	                        	  {type:"r", text:"Käsekuchen"},
-	                        	  {type:"r", text:"Käsekuchen"},
-	                        	  {type:"r", text:"Käsekuchen"}]}]  },
-	           {type: "ch", pos: "0", id: "0", text: "Hauptrezepte", nodes: [
-	        	              {type: "ch", text:"Backen", nodes: [
-	        	            	  {type:"r", text:"Käsekuchen"},
-	        	            	  {type:"r", text:"Käsekuchen"},
-	        	            	  {type:"r", text:"Käsekuchen"},
-	        	            	  {type:"r", text:"Käsekuchen"}]},
-	        	              {type: "ch", text:"Backen", nodes: [
-	        	            	  {type:"r", text:"Käsekuchen"},
-	        	            	  {type:"r", text:"Käsekuchen"},
-	        	            	  {type:"r", text:"Käsekuchen"},
-	        	            	  {type:"r", text:"Käsekuchen"}]}]  
-	           }];
+var recipes = [{id : "0", title: "Kochbuch", text: 'Kochbuch<a onclick="showChapterModal(\'\')" href="#" class="recipe-list-button float-right"><i class="fas fa-plus-square fa-lg" style="color: green"></i>Kapitel hinzufügen</a>', nodes : []}];
 
 var list_str = ""
 	
@@ -161,7 +139,7 @@ function getChapterFromString(chapter) {
 
 function getChapterFromArray(path) {
 	
-	if (chapter.length == 0){
+	if (path.length == 0){
 		return recipes;
 	}
 	
@@ -245,9 +223,19 @@ function newChapter(title, chapterString){
 function deleteRecipe(recipeString) {
 	var path = recipeString.split("-");
 	var chapter = getChapterFromArray(_.first(path,path.length-1));
-	var pathid = path[path.length-1];
+	//var pathid = path[path.length-1];
 	var recipe = _.findWhere(chapter["nodes"], {id : path[path.length-1]});
 	chapter["nodes"] = _.without(chapter["nodes"], recipe);
+	$("#recipe-tree").treeview(tree_view_options); 
+	$("#recipe-tree").treeview("expandAll", { levels: 2, silent: true });
+}
+
+function deleteChapter(chapterString) {
+	var path = chapterString.split("-");
+	var parentChapter = getChapterFromArray(_.first(path,path.length-1));
+	//var pathid = path[path.length-1];
+	var chapter = _.findWhere(parentChapter["nodes"], {id : path[path.length-1]});
+	parentChapter["nodes"] = _.without(parentChapter["nodes"], chapter);
 	$("#recipe-tree").treeview(tree_view_options); 
 	$("#recipe-tree").treeview("expandAll", { levels: 2, silent: true });
 }
