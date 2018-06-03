@@ -1,0 +1,24 @@
+@charset "UTF-8";
+
+div.transbox {
+    background-color: #ffffff;
+    
+    opacity: 0.6;
+    filter: alpha(opacity=60); /* For IE8 and earlier */
+}
+
+#chapter {
+	position: absolute;
+	left: 0px;
+	top: 20px;
+	background: rgba(76, 175, 80, 0.3) /* Green background with 30% opacity */
+	
+}
+
+div.title-container {
+	position: absolute;
+	left: 0px;
+	top: 20px;
+	width: 100%
+}
+

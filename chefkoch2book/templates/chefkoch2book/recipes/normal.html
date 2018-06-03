@@ -4,16 +4,28 @@
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
-<link rel="stylesheet" href="{% static 'chefkoch2book/css/style.css' %}">
+<link rel="stylesheet" href="{% static 'chefkoch2book/css/templates/normal.css' %}">
 <style>
 html,body{
     height:297mm;
     width:210mm;
 }
+
 </style>
 </head>
 <body>
-{{ text|safe }}
+<div id="title-container">
+<span id="title">
+</span>
+</div>
+<input type="hidden" id="recipe">
+
+<div class="transbox">
+<p id="chapter">
+
+<p>
+</div>
+
 
 
 </body>

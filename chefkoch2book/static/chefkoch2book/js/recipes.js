@@ -19,10 +19,10 @@ String.prototype.hashCode = function() {
 var tree_view_options = 
 {
 		data: getRecipeTree(), 
-		levels: 2, 
 		expandIcon:"fas fa-angle-down",
 		collapseIcon:"fas fa-angle-up",
 		emptyIcon:"far fa-file-alt",
+		highlightSelected: false,
 			
 }
 
@@ -91,7 +91,7 @@ function createRecipeList() {
 
 
 
-function createList(item) {
+/*function createList(item) {
 	
 	if (item==null) {
 		return;
@@ -109,7 +109,7 @@ function createList(item) {
 		} else {
 			list_str =list_str.concat(item.title);	
 		}		
-}
+}*/
 
 function newRecipeData(jsonData, chapterString) {
 	saveRecipe(jsonData, chapterString);
@@ -135,6 +135,13 @@ function getChapterFromString(chapter) {
 	return currentChapter;
 }
 
+function getRecipe(recipeString) {
+	var path = recipeString.split("-");
+	var chapter = getChapterFromArray(_.first(path,path.length-1));
+	
+	return _.findWhere(chapter["nodes"], {id : path[path.length-1]});
+}
+
 function getChapterFromArray(path) {
 	
 	if (path == "0"){
@@ -151,6 +158,25 @@ function getChapterFromArray(path) {
 	
 	// alert(currentChapter["text"]);
 	return currentChapter;
+}
+
+function getChapterTitles(chapter) {
+	var titles = [];
+	if (chapter == "0"){
+		return [];
+	}
+	
+	var path = chapter.split("-");
+	var currentChapter = recipes[0];
+	
+	for (var i = 1; i< path.length-1;i++) {
+		currentChapter = _.findWhere(currentChapter.nodes, {id : path[i]});
+		titles.push(currentChapter.title);
+	}
+
+	
+	// alert(currentChapter["text"]);
+	return titles;
 }
 
 
@@ -186,10 +212,15 @@ function addChapter() {
 
 }
 
+
+
 function saveRecipe(recipeData, chapterString){
 	var chapter = getChapterFromString(chapterString);
 	var id = recipeData.title.hashCode();
-	var dataText = recipeData.title + '<a onclick="deleteRecipe(\'' + chapterString + '-' + id + '\')" href="#" class="float-right"><i class="fas fa-minus-square fa-lg" style="color: gray"></i></a>';
+	
+	var deleteButton = '<a onclick="deleteRecipe(\'' + chapterString + '-' + id + '\')" style="margin-left:10px;" href="#" class="float-right"><i class="fas fa-minus-square fa-lg" style="color: gray"></i></a>';
+	var previewButton = '<a onclick="buildRecipe(\'' + chapterString + '-' + id + '\')" href="#" class="float-right"><i class="fas fa-eye fa-lg" style="color: gray"></i></a>'
+	var dataText = recipeData.title + deleteButton + previewButton;
 	recipeData["text"] = dataText;
 	recipeData["id"] = id;
 	
@@ -250,3 +281,67 @@ a.download = "Kochbuch.txt";
 a.click();
 }
 
+function uploadBook() {
+    var input, file, fr;
+
+    if (typeof window.FileReader !== 'function') {
+      alert("The file API isn't supported on this browser yet.");
+      return;
+    }
+
+    input = document.getElementById('fileinput');
+    if (!input) {
+      alert("Um, couldn't find the fileinput element.");
+    }
+    else if (!input.files) {
+      alert("This browser doesn't seem to support the `files` property of file inputs.");
+    }
+    else if (!input.files[0]) {
+      alert("Please select a file before clicking 'Load'");
+    }
+    else {
+      file = input.files[0];
+      fr = new FileReader();
+      fr.onload = receivedText;
+      fr.readAsText(file);
+    }
+
+}
+
+function receivedText(e) {
+    let lines = e.target.result;
+    recipes[0] = JSON.parse(lines)[0]; 
+    $("#recipe-tree").treeview(tree_view_options); 
+	$("#recipe-tree").treeview("expandAll", { silent: true });
+  }
+
+
+
+function buildRecipe(recipeString) {
+	
+	$("#preview-modal").modal("show");
+	var titles = getChapterTitles(recipeString);
+	var chapterString = titles[0];
+	for (let i = 2; i<titles.length; i++) {
+		chapterString += " | " + titles[i];
+	}
+	var recipe = getRecipe(recipeString);
+	var pictures = recipe.images;
+	
+	
+	
+	
+	var title = $('#p-title');
+	var chapter = $('#p-chapter');
+	var content = $('#p-content');
+	var previewContainer = $('#preview-container');
+	previewContainer.css("background-image", "url('/create/get_collage/" + encodeURIComponent(recipe.url) + "/')");
+	title.text(recipe.title);
+	chapter.text(chapterString);
+	content.html(recipe.content);
+}
+
+function populateTemplate(myWindow, recipeString) {
+	
+	//myWindow.document.write("<p>This is 'MsgWindow'. I am 200px wide and 100px tall!</p>"); 
+}
