@@ -219,7 +219,7 @@ function saveRecipe(recipeData, chapterString){
 	var id = recipeData.title.hashCode();
 	
 	var deleteButton = '<a onclick="deleteRecipe(\'' + chapterString + '-' + id + '\')" style="margin-left:10px;" href="#" class="float-right"><i class="fas fa-minus-square fa-lg" style="color: gray"></i></a>';
-	var previewButton = '<a onclick="buildRecipe(\'' + chapterString + '-' + id + '\')" href="#" class="float-right"><i class="fas fa-eye fa-lg" style="color: gray"></i></a>'
+	var previewButton = '<a onclick="showPreview(\'' + chapterString + '-' + id + '\')" href="#" class="float-right"><i class="fas fa-eye fa-lg" style="color: gray"></i></a>'
 	var dataText = recipeData.title + deleteButton + previewButton;
 	recipeData["text"] = dataText;
 	recipeData["id"] = id;
@@ -316,8 +316,17 @@ function receivedText(e) {
   }
 
 
+function showPreview(recipeString) {
+	$.ajax({
+		type : "POST",
+		url : "/create/normal_template/",
+		data: {template: "normal"},
+		success : function (data){buildRecipe(recipeString, data);},
+	});
+}
 
-function buildRecipe(recipeString) {
+
+function buildRecipe(recipeString, templateString) {
 	
 	$("#preview-modal").modal("show");
 	var titles = getChapterTitles(recipeString);
@@ -327,18 +336,21 @@ function buildRecipe(recipeString) {
 	}
 	var recipe = getRecipe(recipeString);
 	var pictures = recipe.images;
+	recipe["chapter"] = chapterString;
+
 	
+	var template = _.template(templateString);
+	$('#preview-container').html(template(recipe));
+	//previewContainer.css("background-image", "url('')");
 	
-	
-	
-	var title = $('#p-title');
-	var chapter = $('#p-chapter');
-	var content = $('#p-content');
-	var previewContainer = $('#preview-container');
-	previewContainer.css("background-image", "url('/create/get_collage/" + encodeURIComponent(recipe.url) + "/')");
-	title.text(recipe.title);
-	chapter.text(chapterString);
-	content.html(recipe.content);
+//	var title = $('#p-title');
+//	var chapter = $('#p-chapter');
+//	var content = $('#p-content');
+//	var previewContainer = $('#preview-container');
+	$('#preview-container').css("background-image", "url('http://localhost:8000/static/chefkoch2book/backgrounds/images/tabletop_01.jpg')");
+//	title.text(recipe.title);
+//	chapter.text(chapterString);
+//	content.html(recipe.content);
 }
 
 function populateTemplate(myWindow, recipeString) {

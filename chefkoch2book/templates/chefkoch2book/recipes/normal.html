@@ -1,32 +1,22 @@
-{% load static %}
-<!DOCTYPE html>
-<html>
-<head>
-<meta charset="UTF-8">
-<title>Insert title here</title>
-<link rel="stylesheet" href="{% static 'chefkoch2book/css/templates/normal.css' %}">
-<style>
-html,body{
-    height:297mm;
-    width:210mm;
-}
+<div id="page-container">
 
-</style>
-</head>
-<body>
-<div id="title-container">
-<span id="title">
-</span>
+	<div id="chapter-container">
+		<div class="transbox">
+			<span id="p-chapter" style=""><% print(chapter); %></span>
+		</div>
+	</div>
+
+
+	<div id="title-container">
+		<div class="transbox">
+			<span id="p-title"><% print(title); %></span>
+		</div>
+	</div>
+
+	<div id="content-container">
+		<div class="transbox shadow">
+			<span id="p-content"><% print(content); %></span>
+		</div>
+	</div>
+
 </div>
-<input type="hidden" id="recipe">
-
-<div class="transbox">
-<p id="chapter">
-
-<p>
-</div>
-
-
-
-</body>
-</html>
