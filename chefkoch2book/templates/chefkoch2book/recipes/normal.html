@@ -1,3 +1,12 @@
+<html>
+<head>
+
+<link id="template-css" rel="stylesheet"
+	href="/static/chefkoch2book/css/templates/normal.css">
+
+</head>
+<body>
+
 <div id="page-container">
 
 	<div id="chapter-container">
@@ -6,13 +15,14 @@
 		</div>
 	</div>
 
+<div id="title-content-container">
 
 	<div id="title-container">
 		<div class="transbox">
 			<span id="p-title"><% print(title); %></span>
 		</div>
 	</div>
-
+	
 	<div id="content-container">
 		<div class="transbox shadow">
 			<span id="p-content"><% print(content); %></span>
@@ -20,3 +30,28 @@
 	</div>
 
 </div>
+
+<div id="image-ingredients-container">
+	
+	<img id="main-image" src="<% print(mainImageUrl); %>">
+	
+	<div id="ingredients">
+		<div class="transbox shadow"><% print(ingredientsTable); %></div>
+	</div>
+
+	
+
+	
+	
+	
+		
+</div>
+
+	<div id="qr-code"></div>
+
+</div>
+
+
+</body>
+
+</html>

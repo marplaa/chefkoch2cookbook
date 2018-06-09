@@ -325,10 +325,23 @@ function showPreview(recipeString) {
 	});
 }
 
+function buildIngredientsTable(ingredients) {
+    var result = "<table>";
+    for(var i=0; i<ingredients.length; i++) {
+        result += "<tr>";
+        result += '<td class="amount">'+ingredients[i][0]+'</td>';
+        result += '<td class="ingredient">'+ingredients[i][1]+'</td>';
+        result += "</tr>";
+    }
+    result += "</table>";
+
+    return result;
+}
+
 
 function buildRecipe(recipeString, templateString) {
 	
-	$("#preview-modal").modal("show");
+	//$("#preview-modal").modal("show");
 	var titles = getChapterTitles(recipeString);
 	var chapterString = titles[0];
 	for (let i = 2; i<titles.length; i++) {
@@ -337,20 +350,38 @@ function buildRecipe(recipeString, templateString) {
 	var recipe = getRecipe(recipeString);
 	var pictures = recipe.images;
 	recipe["chapter"] = chapterString;
+	recipe["ingredientsTable"] = buildIngredientsTable(recipe.ingredients);
+	recipe["mainImageUrl"] = recipe.images[0];
+	
+	
 
 	
 	var template = _.template(templateString);
-	$('#preview-container').html(template(recipe));
-	//previewContainer.css("background-image", "url('')");
+	//$('#preview-container').html(template(recipe));
 	
+	var myWindow = window.open("", "MsgWindow", "width=900,height=1000");
+	myWindow.document.write(template(recipe)); 
+	
+	//previewContainer.css("background-image", "url('')");
+	var qrcode = new QRCode(document.getElementById("qr-code"), {
+	    text: recipe.url,
+	    width: 80,
+	    height: 80,
+	    colorDark : "#000000",
+	    colorLight : "#ffffff",
+	    correctLevel : QRCode.CorrectLevel.L
+	});
+	//new QRCode(document.getElementById("qr-code"), "http://jindo.dev.naver.com/collie");
 //	var title = $('#p-title');
 //	var chapter = $('#p-chapter');
 //	var content = $('#p-content');
 //	var previewContainer = $('#preview-container');
-	$('#preview-container').css("background-image", "url('http://localhost:8000/static/chefkoch2book/backgrounds/images/tabletop_01.jpg')");
+	//$('#preview-container').css("background-image", "url('http://localhost:8000/static/chefkoch2book/backgrounds/images/tabletop_01.jpg')");
+	
 //	title.text(recipe.title);
 //	chapter.text(chapterString);
 //	content.html(recipe.content);
+	
 }
 
 function populateTemplate(myWindow, recipeString) {

@@ -1,17 +1,19 @@
 @charset "UTF-8";
 
 
-	div#preview-container {
+	#page-container {
+/* 		position: fixed; */
+		left: 0px;
+		top: 0px;
 		width: 210mm;
 		height: 297mm;
-		background-size: contain;
+		background-size: cover;
+		background-image: url('http://localhost:8000/static/chefkoch2book/backgrounds/images/tabletop_01.jpg');
 		
 	}
 	div.transbox {
-		background-color: #ffffff;
-		opacity: 0.9;
 		padding: 10px;
-		filter: alpha(opacity = 90); /* For IE8 and earlier */
+		background: rgba(255,255,255, 0.3)
 	}
 	#chapter {
 		position: absolute;
@@ -21,23 +23,45 @@
 
 		/* Green background with 30% opacity */
 	}
-	div#title-container {
-		position: absolute;
-		left: 0px;
+	#title-container {
+/* 		position: absolute; */
+/* 		max-width: 120mm; */
+/* 		left: 0px; */
+/* 		top: 100px; */
+/* 		text-align: right; */
+
+/*  		position: relative;  */
+/* 		display: block; */
+		max-width: 120mm;
+		left: 0mm;
 		top: 100px;
+		text-align: right;
+		margin-bottom: 10mm;
 	}
-	div#chapter-container {
-		position: absolute;
+	#chapter-container {
+/* 		position: absolute; */
 		left: 0px;
 		top: 0px;
 		width: 100%;
+		margin-bottom: 10mm;
 	}
-	div#content-container {
-		position: absolute;
+	#content-container {
+/* 		position: absolute; */
 		left: 10mm;
-		top: 200px;
+		top: 100mm;
 		width: 120mm;
 	}
+	
+	div#ingredients {
+/* 		position: absolute;  */
+/*  		left: 130mm;  */
+/*  		top: 200mm; */
+
+/* 		width: 100mm; */
+/* 		position: absolute;  */
+		
+	}
+	
 	#chapter-container span {
 		font-size: 18pt;
 	}
@@ -45,3 +69,39 @@
 		font-size: 24pt;
 		margin-left: 30px;
 	}
+	#qr-code {
+		position: absolute;
+		left: 5mm;
+		top: 272mm;
+		width: 20mm;
+		height: 20mm;
+	}
+	td.amount {
+		text-align:right;
+		font-weight: bold;
+	}
+	td.ingredient {
+		
+	}
+	
+	img#main-image {
+/* 	    position: absolute; */
+/* 		left: 130mm; */
+/* 		top: 100px; */
+		width: 70mm;
+		margin-bottom: 10mm;
+		
+	}
+
+	#title-content-container {
+		float: left;
+		margin-right: 10mm;
+	}
+	
+	#image-ingredients-container {
+		float: left;
+	}
+	
+	
+	
+	
