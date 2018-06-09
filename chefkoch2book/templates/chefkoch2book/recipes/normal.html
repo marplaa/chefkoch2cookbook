@@ -3,54 +3,68 @@
 
 <link id="template-css" rel="stylesheet"
 	href="/static/chefkoch2book/css/templates/normal.css">
-
+<link href="https://fonts.googleapis.com/css?family=Prata"
+	rel="stylesheet">
 </head>
 <body>
 
-<div id="page-container">
+	<div id="page-container" style="">
 
-	<div id="chapter-container">
-		<div class="transbox">
-			<span id="p-chapter" style=""><% print(chapter); %></span>
+		<div id="chapter-container">
+			<div class="transbox">
+				<span id="p-chapter" style=""><% print(chapter); %></span>
+			</div>
 		</div>
-	</div>
 
-<div id="title-content-container">
+		<div id="title-content-container">
 
-	<div id="title-container">
-		<div class="transbox">
-			<span id="p-title"><% print(title); %></span>
+			<div id="title-container">
+				<div class="transbox">
+					<span id="p-title"><% print(title); %></span>
+				</div>
+			</div>
+
+			<div id="content-container">
+				<div class="transbox shadow">
+					<span id="p-content"><% print(content); %></span>
+				</div>
+			</div>
+
 		</div>
-	</div>
-	
-	<div id="content-container">
-		<div class="transbox shadow">
-			<span id="p-content"><% print(content); %></span>
+
+		<div id="image-ingredients-container">
+
+			<img id="main-image" src="<% print(mainImageUrl); %>">
+
+			<div id="ingredients">
+				<div class="transbox shadow"><% print(ingredientsTable); %></div>
+			</div>
+			
+			<img src="http://localhost:8000/static/chefkoch2book/backgrounds/images/postit_01.png" style="width: 80mm;">
+
+
+
+
+
+
+
 		</div>
+
+		<div id="qr-code"></div>
+
 	</div>
 
-</div>
-
-<div id="image-ingredients-container">
-	
-	<img id="main-image" src="<% print(mainImageUrl); %>">
-	
-	<div id="ingredients">
-		<div class="transbox shadow"><% print(ingredientsTable); %></div>
-	</div>
-
-	
-
-	
-	
-	
-		
-</div>
-
-	<div id="qr-code"></div>
-
-</div>
-
+	<script src="/static/chefkoch2book/js/qrcode.min.js"></script>
+	<script type="text/javascript">
+		var qrcode = new QRCode(document.getElementById("qr-code"), {
+			text : '<% print(url); %>',
+			width : 80,
+			height : 80,
+			colorDark : "#000000",
+			colorLight : "#ffffff",
+			correctLevel : QRCode.CorrectLevel.L
+		});
+	</script>
 
 </body>
 

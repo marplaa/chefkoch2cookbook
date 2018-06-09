@@ -9,11 +9,15 @@
 		height: 297mm;
 		background-size: cover;
 		background-image: url('http://localhost:8000/static/chefkoch2book/backgrounds/images/tabletop_01.jpg');
-		
+		font-family: 'Prata', serif;
+		font-size: 14pt;
 	}
+	
+	
+	
 	div.transbox {
 		padding: 10px;
-		background: rgba(255,255,255, 0.3)
+		background: rgba(255,255,255, 0.7)
 	}
 	#chapter {
 		position: absolute;
@@ -50,6 +54,7 @@
 		left: 10mm;
 		top: 100mm;
 		width: 120mm;
+		line-height: 1.7em;
 	}
 	
 	div#ingredients {
@@ -59,6 +64,7 @@
 
 /* 		width: 100mm; */
 /* 		position: absolute;  */
+		max-width: 80mm;
 		
 	}
 	
@@ -79,6 +85,7 @@
 	td.amount {
 		text-align:right;
 		font-weight: bold;
+		padding-right: 5px;
 	}
 	td.ingredient {
 		
@@ -88,20 +95,23 @@
 /* 	    position: absolute; */
 /* 		left: 130mm; */
 /* 		top: 100px; */
-		width: 70mm;
+		width: 80mm;
 		margin-bottom: 10mm;
 		
 	}
 
 	#title-content-container {
 		float: left;
-		margin-right: 10mm;
+		margin-right: 6mm;
 	}
 	
 	#image-ingredients-container {
 		float: left;
 	}
 	
+	table#ingredients {
+		width: 100%;
+	}
 	
-	
+
 	

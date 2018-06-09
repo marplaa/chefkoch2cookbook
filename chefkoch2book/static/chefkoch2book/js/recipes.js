@@ -363,14 +363,7 @@ function buildRecipe(recipeString, templateString) {
 	myWindow.document.write(template(recipe)); 
 	
 	//previewContainer.css("background-image", "url('')");
-	var qrcode = new QRCode(document.getElementById("qr-code"), {
-	    text: recipe.url,
-	    width: 80,
-	    height: 80,
-	    colorDark : "#000000",
-	    colorLight : "#ffffff",
-	    correctLevel : QRCode.CorrectLevel.L
-	});
+	
 	//new QRCode(document.getElementById("qr-code"), "http://jindo.dev.naver.com/collie");
 //	var title = $('#p-title');
 //	var chapter = $('#p-chapter');
