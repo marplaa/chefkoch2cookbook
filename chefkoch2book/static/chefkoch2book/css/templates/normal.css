@@ -2,15 +2,28 @@
 
 
 	#page-container {
-/* 		position: fixed; */
+		position: absolute; 
 		left: 0px;
 		top: 0px;
-		width: 210mm;
-		height: 297mm;
-		background-size: cover;
-		background-image: url('http://localhost:8000/static/chefkoch2book/backgrounds/images/tabletop_01.jpg');
+		width: 209mm;
+		height: 275mm;
+/* 		background-size: cover; */
+/* 		background-image: url('http://localhost:8000/static/chefkoch2book/backgrounds/images/tabletop_01.jpg'); */
 		font-family: 'Prata', serif;
 		font-size: 14pt;
+		z-index: 9999;
+	}
+	
+	#page-background {
+		position: absolute;
+		background-size: cover;
+/* 		background-image: url('http://localhost:8000/static/chefkoch2book/backgrounds/images/tabletop_01.jpg'); */
+		filter: blur(3px);
+		left: 0px;
+		top: 0px;
+		width: 209mm;
+		height: 275mm;
+		z-index: 0;
 	}
 	
 	

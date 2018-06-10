@@ -7,8 +7,9 @@
 	rel="stylesheet">
 </head>
 <body>
+	<div id="page-background" style="background-image: url('<% print(bgImageUrl);%>')"></div>
+	<div id="page-container">
 
-	<div id="page-container" style="">
 
 		<div id="chapter-container">
 			<div class="transbox">
@@ -39,8 +40,10 @@
 			<div id="ingredients">
 				<div class="transbox shadow"><% print(ingredientsTable); %></div>
 			</div>
-			
-			<img src="http://localhost:8000/static/chefkoch2book/backgrounds/images/postit_01.png" style="width: 80mm;">
+
+			<img
+				src="http://localhost:8000/static/chefkoch2book/backgrounds/images/postit_01.png"
+				style="width: 80mm;">
 
 
 
@@ -51,8 +54,8 @@
 		</div>
 
 		<div id="qr-code"></div>
-
 	</div>
+
 
 	<script src="/static/chefkoch2book/js/qrcode.min.js"></script>
 	<script type="text/javascript">

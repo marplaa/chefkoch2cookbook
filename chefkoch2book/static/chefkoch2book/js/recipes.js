@@ -344,7 +344,7 @@ function buildRecipe(recipeString, templateString) {
 	//$("#preview-modal").modal("show");
 	var titles = getChapterTitles(recipeString);
 	var chapterString = titles[0];
-	for (let i = 2; i<titles.length; i++) {
+	for (let i = 1; i<titles.length; i++) {
 		chapterString += " | " + titles[i];
 	}
 	var recipe = getRecipe(recipeString);
@@ -352,6 +352,7 @@ function buildRecipe(recipeString, templateString) {
 	recipe["chapter"] = chapterString;
 	recipe["ingredientsTable"] = buildIngredientsTable(recipe.ingredients);
 	recipe["mainImageUrl"] = recipe.images[0];
+	recipe["bgImageUrl"] = recipe.images[1];
 	
 	
 
