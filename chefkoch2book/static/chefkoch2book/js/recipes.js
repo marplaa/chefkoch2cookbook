@@ -31,6 +31,10 @@ $(document).ready(document_ready);
 function document_ready() { 
 	$("#recipe-tree").treeview(tree_view_options); 
 	$("#recipe-tree").treeview("expandAll", {  silent: true });
+    //$('#recipes_url_list').bind('drop', handleDrop);
+	document.getElementById("recipes_url_list").addEventListener("drop", handleDrop);
+    
+
 }
 
 
@@ -217,6 +221,8 @@ function saveRecipe(recipeData, chapterString){
 	var dataText = recipeData.title + deleteButton + optionsButton + previewButton;
 	recipeData["text"] = dataText;
 	recipeData["id"] = id;
+	recipeData['img'] = recipeData['images'][0];
+	recipeData['bg'] = recipeData['images'][1];
 	
 	chapter["nodes"].push(recipeData);
 	chapter["nodes"] = _.sortBy(chapter["nodes"], "title");
@@ -381,10 +387,11 @@ function populateTemplate(myWindow, recipeString) {
 }
 
 function showRecipeOptionsModal(recipeString) {
-	
+	var recipe = getRecipe(recipeString);
 	$('#recipe-image-chooser-button').attr("onclick", "showImagePicker('" + recipeString + "', 'img');");
 	$('#recipe-bg-chooser-button').attr("onclick", "showImagePicker('" + recipeString + "', 'bg');");
-	//var recipe = getRecipe(recipeString);
+	$('#recipe-img-thumb').attr("src", recipe.img);
+	$('#recipe-bg-thumb').attr("src", recipe.bg);
 	$("#recipe-options-modal").modal("show");
 	
 }
@@ -410,4 +417,22 @@ function saveRecipeImage(recipeString, index, context) {
 	} else {
 		recipe['bg'] = recipe['images'][index];
 	}
+	$('#recipe-img-thumb').attr("src", recipe.img);
+	$('#recipe-bg-thumb').attr("src", recipe.bg);
+}
+
+function handleDrop(e) {
+	  // this/e.target is current target element.
+	e.preventDefault();  
+    e.stopPropagation();
+
+
+	  // Don't do anything if dropping the same column we're dragging.
+
+	    // Set the source column's HTML to the HTML of the column we dropped on.
+
+	    alert(e.dataTransfer.getData('URL'));
+	  
+
+	return false;
 }

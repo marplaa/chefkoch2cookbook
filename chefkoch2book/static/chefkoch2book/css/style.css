@@ -92,3 +92,10 @@ body {
     border-bottom: 0;
   }
 }
+
+.recipe-img-prev {
+	object-fit: cover;
+	width: 200px;
+	height: 200px;
+	display: block;
+}
