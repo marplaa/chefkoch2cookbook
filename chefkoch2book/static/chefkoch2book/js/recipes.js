@@ -91,25 +91,18 @@ function createRecipeList() {
 
 
 
-/*function createList(item) {
-	
-	if (item==null) {
-		return;
-	}
-	
-		if (item.type == "ch") { // unterchapters durchgehen
-			list_str = list_str.concat('<span style="margin: 5px;"><b>" + item.title + "</b></span><ul class="list-group" id="sublist-chapter-" + item.id + "">');
-			
-			for (var i=0;i<item.content.length;i++){
-				list_str = list_str.concat('<li class="list-group-item">');
-				createList(item.content[i]);
-				list_str =list_str.concat("</li>")
-			}
-			list_str =list_str.concat("</ul>")
-		} else {
-			list_str =list_str.concat(item.title);	
-		}		
-}*/
+/*
+ * function createList(item) {
+ * 
+ * if (item==null) { return; }
+ * 
+ * if (item.type == "ch") { // unterchapters durchgehen list_str =
+ * list_str.concat('<span style="margin: 5px;"><b>" + item.title + "</b></span><ul class="list-group" id="sublist-chapter-" + item.id + "">');
+ * 
+ * for (var i=0;i<item.content.length;i++){ list_str = list_str.concat('<li class="list-group-item">');
+ * createList(item.content[i]); list_str =list_str.concat("</li>") } list_str
+ * =list_str.concat("</ul>") } else { list_str =list_str.concat(item.title); } }
+ */
 
 function newRecipeData(jsonData, chapterString) {
 	saveRecipe(jsonData, chapterString);
@@ -219,8 +212,9 @@ function saveRecipe(recipeData, chapterString){
 	var id = recipeData.title.hashCode();
 	
 	var deleteButton = '<a onclick="deleteRecipe(\'' + chapterString + '-' + id + '\')" style="margin-left:10px;" href="#" class="float-right"><i class="fas fa-minus-square fa-lg" style="color: gray"></i></a>';
-	var previewButton = '<a onclick="showPreview(\'' + chapterString + '-' + id + '\')" href="#" class="float-right"><i class="fas fa-eye fa-lg" style="color: gray"></i></a>'
-	var dataText = recipeData.title + deleteButton + previewButton;
+	var previewButton = '<a onclick="showPreview(\'' + chapterString + '-' + id + '\')" style="margin-left:10px;" href="#" class="float-right"><i class="fas fa-eye fa-lg" style="color: gray"></i></a>'
+	var optionsButton = '<a onclick="showRecipeOptionsModal(\'' + chapterString + '-' + id + '\');" style="margin-left:10px;" href="#" class="float-right"><i class="fas fa-cog fa-lg" style="color: gray"></i></a>'
+	var dataText = recipeData.title + deleteButton + optionsButton + previewButton;
 	recipeData["text"] = dataText;
 	recipeData["id"] = id;
 	
@@ -250,7 +244,7 @@ function newChapter(title, chapterString){
 function deleteRecipe(recipeString) {
 	var path = recipeString.split("-");
 	var chapter = getChapterFromArray(_.first(path,path.length-1));
-	//var pathid = path[path.length-1];
+	// var pathid = path[path.length-1];
 	var recipe = _.findWhere(chapter["nodes"], {id : path[path.length-1]});
 	chapter["nodes"] = _.without(chapter["nodes"], recipe);
 	$("#recipe-tree").treeview(tree_view_options); 
@@ -341,7 +335,7 @@ function buildIngredientsTable(ingredients) {
 
 function buildRecipe(recipeString, templateString) {
 	
-	//$("#preview-modal").modal("show");
+	// $("#preview-modal").modal("show");
 	var titles = getChapterTitles(recipeString);
 	var chapterString = titles[0];
 	for (let i = 1; i<titles.length; i++) {
@@ -351,34 +345,69 @@ function buildRecipe(recipeString, templateString) {
 	var pictures = recipe.images;
 	recipe["chapter"] = chapterString;
 	recipe["ingredientsTable"] = buildIngredientsTable(recipe.ingredients);
-	recipe["mainImageUrl"] = recipe.images[0];
-	recipe["bgImageUrl"] = recipe.images[1];
+	recipe["mainImageUrl"] = recipe.img;
+	recipe["bgImageUrl"] = recipe.bg;
 	
 	
 
 	
 	var template = _.template(templateString);
-	//$('#preview-container').html(template(recipe));
+	// $('#preview-container').html(template(recipe));
 	
 	var myWindow = window.open("", "MsgWindow", "width=900,height=1000");
 	myWindow.document.write(template(recipe)); 
 	
-	//previewContainer.css("background-image", "url('')");
+	// previewContainer.css("background-image", "url('')");
 	
-	//new QRCode(document.getElementById("qr-code"), "http://jindo.dev.naver.com/collie");
-//	var title = $('#p-title');
-//	var chapter = $('#p-chapter');
-//	var content = $('#p-content');
-//	var previewContainer = $('#preview-container');
-	//$('#preview-container').css("background-image", "url('http://localhost:8000/static/chefkoch2book/backgrounds/images/tabletop_01.jpg')");
+	// new QRCode(document.getElementById("qr-code"),
+	// "http://jindo.dev.naver.com/collie");
+// var title = $('#p-title');
+// var chapter = $('#p-chapter');
+// var content = $('#p-content');
+// var previewContainer = $('#preview-container');
+	// $('#preview-container').css("background-image",
+	// "url('http://localhost:8000/static/chefkoch2book/backgrounds/images/tabletop_01.jpg')");
 	
-//	title.text(recipe.title);
-//	chapter.text(chapterString);
-//	content.html(recipe.content);
+// title.text(recipe.title);
+// chapter.text(chapterString);
+// content.html(recipe.content);
 	
 }
 
 function populateTemplate(myWindow, recipeString) {
 	
-	//myWindow.document.write("<p>This is 'MsgWindow'. I am 200px wide and 100px tall!</p>"); 
+	// myWindow.document.write("<p>This is 'MsgWindow'. I am 200px wide and
+	// 100px tall!</p>");
+}
+
+function showRecipeOptionsModal(recipeString) {
+	
+	$('#recipe-image-chooser-button').attr("onclick", "showImagePicker('" + recipeString + "', 'img');");
+	$('#recipe-bg-chooser-button').attr("onclick", "showImagePicker('" + recipeString + "', 'bg');");
+	//var recipe = getRecipe(recipeString);
+	$("#recipe-options-modal").modal("show");
+	
+}
+
+function showImagePicker(recipeString, context){
+	
+	var recipe = getRecipe(recipeString);
+	var option = "";
+	for (var i=0;i<recipe['images'].length; i++) {
+		option = '<option data-img-src="' + recipe['images'][i] + '" value="'+ i +'"></option>';
+		$('#recipe-image-picker').append(option);
+	}
+	$('#image-chooser-select-button').attr("onclick", "saveRecipeImage('" + recipeString + "', $('#recipe-image-picker').val(), '" + context + "');$('#image-chooser-modal').modal('hide');");
+	$('#recipe-image-picker').imagepicker();
+	$("#image-chooser-modal").modal("show");
+	
+}
+
+function saveRecipeImage(recipeString, index, context) {
+	var recipe = getRecipe(recipeString);
+	if (context == "img") {
+		recipe['img'] = recipe['images'][index];
+	} else {
+		recipe['bg'] = recipe['images'][index];
+	}
 }

@@ -10,7 +10,7 @@
 /* 		background-size: cover; */
 /* 		background-image: url('http://localhost:8000/static/chefkoch2book/backgrounds/images/tabletop_01.jpg'); */
 		font-family: 'Prata', serif;
-		font-size: 14pt;
+		font-size: 12pt;
 		z-index: 9999;
 	}
 	
@@ -91,7 +91,7 @@
 	#qr-code {
 		position: absolute;
 		left: 5mm;
-		top: 272mm;
+		top: 222mm;
 		width: 20mm;
 		height: 20mm;
 	}
