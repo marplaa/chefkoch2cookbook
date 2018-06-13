@@ -2,19 +2,19 @@
 <head>
 <script src="/static/chefkoch2book/js/jquery-3.3.1.min.js"></script>
 <link id="template-css" rel="stylesheet"
-	href="/static/chefkoch2book/templates/recipes/normal/normal.css">
+	href="/static/chefkoch2book/templates/recipes/css/normal.css">
 <link href="https://fonts.googleapis.com/css?family=Prata"
 	rel="stylesheet">
 
 </head>
 <body>
-	<div id="page-background" style="background-image: url('<% print(bgImageUrl);%>')"></div>
+	<div id="page-background" style="background-image: url('{{ bg }}')"></div>
 	<div id="page-container">
 
 
 		<div id="chapter-container">
 			<div class="transbox">
-				<span id="p-chapter" style=""><% print(chapter); %></span>
+				<span id="p-chapter" style="">{{ chapter }}</span>
 			</div>
 		</div>
 
@@ -22,13 +22,13 @@
 
 			<div id="title-container">
 				<div class="transbox">
-					<span id="p-title"><% print(title); %></span>
+					<span id="p-title">{{ title }}</span>
 				</div>
 			</div>
 
 			<div id="content-container">
 				<div class="transbox shadow">
-					<span id="p-content"><% print(content); %></span>
+					<span id="p-content">{{content|safe}}</span>
 				</div>
 			</div>
 
@@ -36,10 +36,10 @@
 
 		<div id="image-ingredients-container">
 
-			<img id="main-image" src="<% print(mainImageUrl); %>">
+			<img id="main-image" src="{{ img }}">
 
 			<div id="ingredients">
-				<div class="transbox shadow"><% print(ingredientsTable); %></div>
+				<div class="transbox shadow">{{ ingredientsTable|safe }}</div>
 			</div>
 
 			<img
@@ -55,11 +55,13 @@
 		</div>
 
 		<div id="qr-code"></div>
+		{{ string}} <br><br>
+		{{ titlen}}
 	</div>
 
 
 	<script src="/static/chefkoch2book/js/qrcode.min.js"></script>
-	<script src="/static/chefkoch2book/templates/recipes/normal/normal.js"></script>
+	<script src="/static/chefkoch2book/templates/recipes/js/normal.js"></script>
 
 
 </body>

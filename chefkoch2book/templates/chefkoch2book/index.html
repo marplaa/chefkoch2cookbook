@@ -24,13 +24,13 @@
 
 <script src="{% static 'chefkoch2book/js/underscore.js' %}"></script>
 <script src="{% static 'chefkoch2book/js/image-picker.min.js' %}"></script>
+<script src="{% static 'chefkoch2book/js/jquery.redirect.js' %}"></script>
 
 <link rel="stylesheet"
 	href="{% static 'chefkoch2book/css/bootstrap-treeview.min.css' %}">
 <link rel="stylesheet"
 	href="{% static 'chefkoch2book/css/image-picker.css' %}">
-<link id="template-css" rel="stylesheet"
-	href="{% static 'chefkoch2book/css/templates/normal.css' %}">
+
 <link rel="stylesheet" href="{% static 'chefkoch2book/css/style.css' %}">
 <link rel="stylesheet"
 	href="https://cdnjs.cloudflare.com/ajax/libs/jstree/3.2.1/themes/default/style.min.css" />
@@ -108,9 +108,7 @@
 					Welche Rezepte sollen für dein Kochbuch zusammengestellt werden?<i
 						class="fas fa-camera-retro"></i>
 				</h5>
-				<p class="card-text">Gib hier eine Liste von Links zu den
-					Druckseiten der Rezepte an. Wie genau du das tun kannst, erfährst
-					du in diesem Video.</p>
+				<p class="card-text">{% csrf_token %}</p>
 				<form></form>
 
 				<div class="dropdown float-right" id="chapter-selection">

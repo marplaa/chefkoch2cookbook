@@ -30,7 +30,7 @@ function document_ready() {
 			$("#content-container").css("font-size", --fontSize + "pt");
 		} else {
 			$("#content-container").css("line-height", lineHeight + "em");
-			lineHeight -= 0.1;
+			lineHeight = Number((lineHeight - 0.1).toFixed(1));
 		}
 		console.log("ok");
 		titleContentHeight = $("#title-content-container").outerHeight();

@@ -129,22 +129,16 @@ def get_normal_template(request):
     
     return render(request, 'chefkoch2book/recipes/normal.html')
 
-def render_recipe(request):
-    if request.POST['template'] is not None:
-        template = request.POST['template']
-    else:
-        template = "normal"
-    url = request.POST['url']
-    if request.POST['background'] is not None:
-        background = request.POST['background']
-    else:
-        background = ""
-    if request.POST['chapter'] is not None:
-        chapter = request.POST['chapter']
-    else:
-        chapter = ""
-    
+def render_recipe(request, template):
+
+    data = json.loads(request.POST['jsonData'])
 
     
-    data = get_recipe_data(url)
-    return render(request, 'chefkoch2book/recipes/'+ template +'.html', data)
+    return render(request, 'chefkoch2book/recipes/'+ template + '/' + template +'.html', data)
+
+
+
+
+
+
+

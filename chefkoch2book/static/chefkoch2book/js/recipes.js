@@ -317,11 +317,12 @@ function receivedText(e) {
 
 
 function showPreview(recipeString) {
-	$.ajax({
-		type : "GET",
-		url : "/static/chefkoch2book/templates/recipes/normal/normal.html",
-		success : function (data){buildRecipe(recipeString, data);},
-	});
+//	$.ajax({
+//		type : "GET",
+//		url : "/static/chefkoch2book/templates/recipes/normal/normal.html",
+//		success : function (data){buildRecipe(recipeString, data);},
+//	});
+	buildRecipe(recipeString)
 }
 
 function buildIngredientsTable(ingredients) {
@@ -338,7 +339,7 @@ function buildIngredientsTable(ingredients) {
 }
 
 
-function buildRecipe(recipeString, templateString) {
+function buildRecipe(recipeString) {
 	
 	// $("#preview-modal").modal("show");
 	var titles = getChapterTitles(recipeString);
@@ -352,18 +353,27 @@ function buildRecipe(recipeString, templateString) {
 	recipe["ingredientsTable"] = buildIngredientsTable(recipe.ingredients);
 	recipe["mainImageUrl"] = recipe.img;
 	recipe["bgImageUrl"] = recipe.bg;
-	
-	
 
 	
-	var template = _.template(templateString);
+	//$.redirect("/create/render_recipe/normal/", recipe, "POST", "_blank", true);
+
+	
+	//var template = _.template(templateString);
 	// $('#preview-container').html(template(recipe));
+	var form = $('<form>')
+    .attr("method", "POST")
+    .attr("action", "/create/render_recipe/normal/")
+    .attr("target", "_blank");
+	var input = $("<input>").attr("type", "hidden")
+    .attr("name", "jsonData")
+    .attr("value", JSON.stringify(recipe));
+	form.append(input);
+	form.append('<input type="hidden" name="csrfmiddlewaretoken" value="'+ csrftoken+'">');
+	$('body').append(form);
 	
-	var myWindow = window.open("http://localhost:8000/create/#", "MsgWindow", "width=900,height=1000");
-	myWindow.document.write(template(recipe)); 
+	form.submit();
 	
-	
-
+	//myWindow.document.write(template(recipe));
 }
 
 function populateTemplate(myWindow, recipeString) {

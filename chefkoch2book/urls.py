@@ -13,4 +13,5 @@ urlpatterns = [
     path('get_recipe/', views.get_recipe, name='recipe'),
     path('get_recipe_data_json/', views.get_recipe_data_json, name='recipe_data_json'),
     path('normal_template/', views.get_normal_template, name='get_normal_template'),
+    path('render_recipe/<template>/', views.render_recipe, name='render_recipe'),
 ]
