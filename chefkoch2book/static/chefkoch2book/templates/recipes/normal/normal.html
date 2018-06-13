@@ -1,10 +1,11 @@
 <html>
 <head>
-
+<script src="/static/chefkoch2book/js/jquery-3.3.1.min.js"></script>
 <link id="template-css" rel="stylesheet"
-	href="/static/chefkoch2book/css/templates/normal.css">
+	href="/static/chefkoch2book/templates/recipes/normal/normal.css">
 <link href="https://fonts.googleapis.com/css?family=Prata"
 	rel="stylesheet">
+
 </head>
 <body>
 	<div id="page-background" style="background-image: url('<% print(bgImageUrl);%>')"></div>
@@ -58,16 +59,8 @@
 
 
 	<script src="/static/chefkoch2book/js/qrcode.min.js"></script>
-	<script type="text/javascript">
-		var qrcode = new QRCode(document.getElementById("qr-code"), {
-			text : '<% print(url); %>',
-			width : 80,
-			height : 80,
-			colorDark : "#000000",
-			colorLight : "#ffffff",
-			correctLevel : QRCode.CorrectLevel.L
-		});
-	</script>
+	<script src="/static/chefkoch2book/templates/recipes/normal/normal.js"></script>
+
 
 </body>
 

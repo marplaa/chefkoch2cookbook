@@ -318,9 +318,8 @@ function receivedText(e) {
 
 function showPreview(recipeString) {
 	$.ajax({
-		type : "POST",
-		url : "/create/normal_template/",
-		data: {template: "normal"},
+		type : "GET",
+		url : "/static/chefkoch2book/templates/recipes/normal/normal.html",
 		success : function (data){buildRecipe(recipeString, data);},
 	});
 }
@@ -360,24 +359,11 @@ function buildRecipe(recipeString, templateString) {
 	var template = _.template(templateString);
 	// $('#preview-container').html(template(recipe));
 	
-	var myWindow = window.open("", "MsgWindow", "width=900,height=1000");
+	var myWindow = window.open("http://localhost:8000/create/#", "MsgWindow", "width=900,height=1000");
 	myWindow.document.write(template(recipe)); 
 	
-	// previewContainer.css("background-image", "url('')");
 	
-	// new QRCode(document.getElementById("qr-code"),
-	// "http://jindo.dev.naver.com/collie");
-// var title = $('#p-title');
-// var chapter = $('#p-chapter');
-// var content = $('#p-content');
-// var previewContainer = $('#preview-container');
-	// $('#preview-container').css("background-image",
-	// "url('http://localhost:8000/static/chefkoch2book/backgrounds/images/tabletop_01.jpg')");
-	
-// title.text(recipe.title);
-// chapter.text(chapterString);
-// content.html(recipe.content);
-	
+
 }
 
 function populateTemplate(myWindow, recipeString) {
@@ -431,8 +417,14 @@ function handleDrop(e) {
 
 	    // Set the source column's HTML to the HTML of the column we dropped on.
 
-	    alert(e.dataTransfer.getData('URL'));
-	  
+	let newLink = e.dataTransfer.getData('URL');
+	let links = $('#recipes_url_list').val();
+	if (links == "") {
+		$('#recipes_url_list').val(newLink);
+	} else {
+		$('#recipes_url_list').val(links +";" + newLink);
+	}
+	
 
 	return false;
 }
