@@ -12,21 +12,21 @@
 	<div id="page-container">
 
 
-		<div id="chapter-container">
+		<div id="left-chapter-container">
 			<div class="transbox">
-				<span id="p-chapter" style="">{{ chapter }}</span>
+				<span id="left-chapter" style="">{{ chapter }}</span>
 			</div>
 		</div>
 
-		<div id="title-content-container">
+		<div id="left-title-content-container">
 
-			<div id="title-container">
+			<div id="left-title-container">
 				<div class="transbox">
 					<span id="p-title">{{ title }}</span>
 				</div>
 			</div>
 
-			<div id="content-container">
+			<div id="left-content-container">
 				<div class="transbox shadow">
 					<span id="p-content">{{content|safe}}</span>
 				</div>
@@ -34,11 +34,11 @@
 
 		</div>
 
-		<div id="image-ingredients-container">
+		<div id="left-image-ingredients-container">
 
-			<img id="main-image" src="{{ img }}">
+			<img id="left-main-image" src="{{ img }}">
 
-			<div id="ingredients">
+			<div id="left-ingredients">
 				<div class="transbox shadow">{{ ingredientsTable|safe }}</div>
 			</div>
 
@@ -54,15 +54,10 @@
 
 		</div>
 
-		
-
-	
-		
-		<div id="footer" style="background-color: #fff;"><table id="footer-table"><tr><td>{{page|safe}}</td><td></td></tr></table></div>
-	<div id="qr-code"></div>
+		<div id="qr-code"></div>
+		{{ string}} <br><br>
+		{{ titlen}}
 	</div>
-	
-	
 
 
 	<script src="/static/chefkoch2book/js/qrcode.min.js"></script>

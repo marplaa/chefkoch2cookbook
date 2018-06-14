@@ -353,6 +353,7 @@ function buildRecipe(recipeString) {
 	recipe["ingredientsTable"] = buildIngredientsTable(recipe.ingredients);
 	recipe["mainImageUrl"] = recipe.img;
 	recipe["bgImageUrl"] = recipe.bg;
+	recipe["page"] = "58";
 
 	
 	//$.redirect("/create/render_recipe/normal/", recipe, "POST", "_blank", true);
