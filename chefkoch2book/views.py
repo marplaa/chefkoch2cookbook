@@ -138,7 +138,10 @@ def render_recipe(request, template):
 
 
 
+def render_book(request):
+    
+    recipes = request.POST['jsonData']
+    data = {"recipes": recipes}
 
-
-
+    return render(request, 'chefkoch2book/recipes/twoColumns/twoColumns.html', data)
 

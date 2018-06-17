@@ -1,0 +1,153 @@
+@charset "UTF-8";
+
+
+
+	div.page {
+		position:relative;
+		width: 209mm;
+		height: 275mm;
+		z-index: 9999;
+	}
+	
+	div.background {
+		position: absolute;
+		background-size: cover;
+		filter: blur(3px);
+		left: 0px;
+		top: 0px;
+		width: 209mm;
+		height: 275mm;
+		z-index: 0;
+	}
+	
+	
+	
+	div.transbox {
+		padding: 4px;
+		background: rgba(255,255,255, 0.7)
+	}
+	
+	div.chapter-container {
+		height: 15mm;
+		position: relative;
+		left: 0px;
+		top: 0px;
+	}
+	
+	div.l-page .chapter-container {
+		
+        text-align: left;
+        
+	}
+	
+	.r-page {
+	}
+	
+	.l-page {
+	}
+	
+	div.r-page .chapter-container {
+		
+		text-align: right;
+        
+	}
+	
+	div.title-container {
+		padding: 4px;
+		width: 102mm;
+		margin-bottom: 4mm;
+		font-size: 12pt;
+		background: rgba(255,255,255, 0.7);
+	}
+	
+	div.content-container {
+		font-size: 8pt;
+		padding: 2mm;
+		line-height: 1.3em;
+		background: rgba(255,255,255, 0.7);
+	}
+	
+	div.ingredients-container {
+/* 		position: absolute;  */
+/*  		left: 130mm;  */
+/*  		top: 200mm; */
+
+/* 		width: 100mm; */
+/* 		position: absolute;  */
+		width: 102mm;
+		font-size: 8pt;
+		background: rgba(255,255,255, 0.7);
+		
+	}
+	
+	div.col {
+		width: 102mm;
+		height: 240mm;
+	}
+	
+	div.left-col {
+		position: absolute;
+		left:0px;
+		top: 20mm;
+	}
+	
+	div.right-col {
+	    position: absolute;
+		left: 107mm;
+		top: 20mm;
+	}
+	
+	
+	#qr-code {
+		position: absolute;
+		bottom: 2px;
+		right: 10mm;
+		width: 20mm;
+		height: 20mm;
+	}
+	td.amount {
+		text-align:right;
+		font-weight: bold;
+		padding-right: 5px;
+		font-size: 8pt;
+	}
+	td.ingredient {
+		font-size: 8pt;
+	}
+	
+	img.image {
+/* 	    position: absolute; */
+/* 		left: 130mm; */
+/* 		top: 100px; */
+		width: 102mm;
+		margin-bottom: 10mm;
+	}
+
+	#title-content-container {
+		float: left;
+		margin-right: 6mm;
+	}
+	
+	#image-ingredients-container {
+		float: left;
+	}
+	
+	table#ingredients {
+		width: 100%;
+	}
+	div#footer {
+		position: absolute;
+		top: 265mm;
+		left: 0px;
+		width: 100%;
+		height: 10mm;
+		padding: 5px;
+	}
+	
+	#footer table {
+		table-layout: fixed;
+		width: 100%;
+	}
+	
+
+	

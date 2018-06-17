@@ -338,8 +338,13 @@ function buildIngredientsTable(ingredients) {
     return result;
 }
 
+function buildBook() {
+	for ()
+}
 
 function buildRecipe(recipeString) {
+	
+	
 	
 	// $("#preview-modal").modal("show");
 	var titles = getChapterTitles(recipeString);
@@ -359,22 +364,37 @@ function buildRecipe(recipeString) {
 	//$.redirect("/create/render_recipe/normal/", recipe, "POST", "_blank", true);
 
 	
-	//var template = _.template(templateString);
-	// $('#preview-container').html(template(recipe));
+	
+//	var form = $('<form>')
+//    .attr("method", "POST")
+//    .attr("action", "/create/render_book/")
+//    .attr("target", "_blank");
+//	var input = $("<input>").attr("type", "hidden")
+//    .attr("name", "jsonData")
+//    .attr("value", JSON.stringify(recipe));
+//	form.append(input);
+//	form.append('<input type="hidden" name="csrfmiddlewaretoken" value="'+ csrftoken+'">');
+//	$('body').append(form);
+//	
+//	form.submit();
+	
+	showPreview();
+	//myWindow.document.write(template(recipe));
+}
+
+function showPreview() {
 	var form = $('<form>')
     .attr("method", "POST")
-    .attr("action", "/create/render_recipe/normal/")
+    .attr("action", "/create/render_book/")
     .attr("target", "_blank");
 	var input = $("<input>").attr("type", "hidden")
     .attr("name", "jsonData")
-    .attr("value", JSON.stringify(recipe));
+    .attr("value", JSON.stringify(recipes));
 	form.append(input);
 	form.append('<input type="hidden" name="csrfmiddlewaretoken" value="'+ csrftoken+'">');
 	$('body').append(form);
 	
 	form.submit();
-	
-	//myWindow.document.write(template(recipe));
 }
 
 function populateTemplate(myWindow, recipeString) {
@@ -439,3 +459,5 @@ function handleDrop(e) {
 
 	return false;
 }
+
+
