@@ -51,8 +51,8 @@
 	}
 	
 	div.title-container {
-		padding: 4px;
-		margin-bottom: 2mm;
+		padding: 2mm 2mm 3mm 2mm;
+		
 		font-size: 12pt;
 		background: rgba(255,255,255, 0.7);
 	}
@@ -63,6 +63,7 @@
 		line-height: 1.3em;
 		background: rgba(255,255,255, 0.7);
 		text-align: justify;
+		margin-bottom: 3mm;
 	}
 	
 	div.ingredients-container {

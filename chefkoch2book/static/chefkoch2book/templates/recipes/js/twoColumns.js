@@ -119,21 +119,62 @@ function addRecipe(recipe) {
 	let id = recipe.id;
 	let page = pages[pages.length -1];
 	let col = null;
-	if (page.cursor[0] == "r") {
+	if (page.cursor[0] == 'r') {
 		col = $(page.elem).find('div.right-col');
 	} else {
 		col = $(page.elem).find('div.left-col');
 	}
 	
+	let recipeDiv = $('<div id="r-' + id + '"><div>');
+	
 	let title = $('<div id="t-' + id + '" class="title-container"><span>' + recipe.title + '</span></div>');
 	let image = $('<img id="i-' + id + '" class="image" src="' + recipe.img + '">');
-	let ingredients = $('<div id="t-' + id + '" class="ingredients-container">' + buildIngredientsTable(recipe.ingredients) + '</div>');
+	let ingredients = $('<div id="z-' + id + '" class="ingredients-container">' + buildIngredientsTable(recipe.ingredients) + '</div>');
 	let content = $('<div id="c-' + id + '" class="content-container"><span>' + recipe.content + '</span></div>');
+	
+	recipeDiv.append(title,image,ingredients,content);
 	
 	if (page.bg == "") {
 		page.bg = recipe.bg;
 		$(page.elem).find(".background").css("background-image", 'url("' + recipe.bg + '")');
 	}
 	
-	col.append(title,image,ingredients,content);
+	col.append(recipeDiv);
+	let recipeHeight = $('#r-'+id).outerHeight();
+
+	if(page.cursor[1] + recipeHeight > col.height()) {
+		// if ingredients list small enough, try to cut content of, else new page
+		
+		if(page.cursor[1] + $('#z-'+id).outerHeight() < col.height()) {
+			let i = 0;
+			let sliceIndex, leftContent, rightContent;
+			//while(page.cursor[1] + $('#r-'+id).outerHeight()>col.height()) {
+				sliceIndex = splitContent(recipe.content, i);
+				leftContent = recipe.content.slice(0,sliceIndex);
+				rightContent = recipe.content.slice(sliceIndex+1);
+				i++;
+			}
+		}else {
+			$('#r-'+id).remove();
+			if (page.cursor[0] == 'l') {
+				page.cursor[0] = 'r';
+				page.cursor[1] = 0;
+			} else {
+				addPage(page.chapter);
+			}
+			addRecipe(recipe);
+		}
+		
+	}
+	page.cursor[1] += recipeHeight;
+}
+
+function splitContent(string, pos) {
+	let currentPos = string.length-1;
+	for (let i = 0; i<pos; i++) {
+		while (string[currentPos]!=" ") {
+			currentPos--;
+		}
+	}
+	return currentPos;
 }
