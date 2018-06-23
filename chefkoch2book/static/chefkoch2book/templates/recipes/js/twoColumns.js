@@ -125,7 +125,7 @@ function addRecipe(recipe) {
 		col = $(page.elem).find('div.left-col');
 	}
 	
-	let recipeDiv = $('<div id="r-' + id + '"><div>');
+	let recipeDiv = $('<div id="r-' + id + '"></div>');
 	
 	let title = $('<div id="t-' + id + '" class="title-container"><span>' + recipe.title + '</span></div>');
 	let image = $('<img id="i-' + id + '" class="image" src="' + recipe.img + '">');
@@ -147,13 +147,31 @@ function addRecipe(recipe) {
 		
 		if(page.cursor[1] + $('#z-'+id).outerHeight() < col.height()) {
 			let i = 0;
+			let newContentDiv = $('<div id="cc-' + id + '" class="content-container"><span></span></div>');
+			if (page.cursor[0]=="l") {
+				//continue on right column
+				col = $(page.elem).find('div.right-col');
+				page.cursor[0]="r";
+			} else {
+				// new page
+				addPage(page.chapter);
+				page = pages[pages.length -1];
+				
+				col = $(page.elem).find('div.left-col');
+			}
+			col.append(newContentDiv);
 			let sliceIndex, leftContent, rightContent;
-			//while(page.cursor[1] + $('#r-'+id).outerHeight()>col.height()) {
+			while(page.cursor[1] + $('#r-'+id).outerHeight()>col.height()) {
 				sliceIndex = splitContent(recipe.content, i);
 				leftContent = recipe.content.slice(0,sliceIndex);
 				rightContent = recipe.content.slice(sliceIndex+1);
+				$('#c-'+id + ' span').html(leftContent);
+				$('#cc-'+id + ' span').html(rightContent);
+				
 				i++;
 			}
+			page.cursor[1] = $('#cc-'+id).outerHeight();
+			return;
 		}else {
 			$('#r-'+id).remove();
 			if (page.cursor[0] == 'l') {
@@ -172,9 +190,10 @@ function addRecipe(recipe) {
 function splitContent(string, pos) {
 	let currentPos = string.length-1;
 	for (let i = 0; i<pos; i++) {
-		while (string[currentPos]!=" ") {
+		while (string[currentPos] != ' ') {
 			currentPos--;
 		}
+		currentPos--;
 	}
-	return currentPos;
+	return currentPos+1;
 }

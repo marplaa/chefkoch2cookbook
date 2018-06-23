@@ -20,8 +20,6 @@
 		z-index: 0;
 	}
 	
-	
-	
 	div.transbox {
 		padding: 4px;
 		background: rgba(255,255,255, 0.7)
@@ -82,7 +80,7 @@
 	
 	div.col {
 		width: 102mm;
-		height: 240mm;
+		height: 255mm;
 	}
 	
 	div.left-col {
