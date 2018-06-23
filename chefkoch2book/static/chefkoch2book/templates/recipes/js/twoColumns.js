@@ -125,10 +125,10 @@ function addRecipe(recipe) {
 		col = $(page.elem).find('div.left-col');
 	}
 	
-	let title = $('<div id="t-"' + id + '" class="title-container"><span>' + recipe.title + '</span></div>');
-	let image = $('<img id="i-"' + id + '" class="image" src="' + recipe.img + '">');
+	let title = $('<div id="t-' + id + '" class="title-container"><span>' + recipe.title + '</span></div>');
+	let image = $('<img id="i-' + id + '" class="image" src="' + recipe.img + '">');
 	let ingredients = $('<div id="t-' + id + '" class="ingredients-container">' + buildIngredientsTable(recipe.ingredients) + '</div>');
-	let content = $('<div id="c-"' + id + '" class="content-container"><span>' + recipe.content + '</span></div>');
+	let content = $('<div id="c-' + id + '" class="content-container"><span>' + recipe.content + '</span></div>');
 	
 	if (page.bg == "") {
 		page.bg = recipe.bg;

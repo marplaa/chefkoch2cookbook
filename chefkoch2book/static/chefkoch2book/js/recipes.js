@@ -339,7 +339,7 @@ function buildIngredientsTable(ingredients) {
 }
 
 function buildBook() {
-	for ()
+	
 }
 
 function buildRecipe(recipeString) {

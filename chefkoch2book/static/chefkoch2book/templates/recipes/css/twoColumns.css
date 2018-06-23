@@ -28,7 +28,7 @@
 	}
 	
 	div.chapter-container {
-		height: 15mm;
+		height: 10mm;
 		position: relative;
 		left: 0px;
 		top: 0px;
@@ -54,17 +54,17 @@
 	
 	div.title-container {
 		padding: 4px;
-		width: 102mm;
-		margin-bottom: 4mm;
+		margin-bottom: 2mm;
 		font-size: 12pt;
 		background: rgba(255,255,255, 0.7);
 	}
 	
 	div.content-container {
-		font-size: 8pt;
-		padding: 2mm;
+		font-size: 9pt;
+		padding: 3mm;
 		line-height: 1.3em;
 		background: rgba(255,255,255, 0.7);
+		text-align: justify;
 	}
 	
 	div.ingredients-container {
@@ -74,10 +74,11 @@
 
 /* 		width: 100mm; */
 /* 		position: absolute;  */
-		width: 102mm;
+		width: 48mm;
 		font-size: 8pt;
-		background: rgba(255,255,255, 0.7);
-		
+		float: right;
+		padding: 2mm 0mm 2mm 2mm;
+
 	}
 	
 	div.col {
@@ -88,13 +89,13 @@
 	div.left-col {
 		position: absolute;
 		left:0px;
-		top: 20mm;
+
 	}
 	
 	div.right-col {
 	    position: absolute;
 		left: 107mm;
-		top: 20mm;
+
 	}
 	
 	
@@ -109,18 +110,20 @@
 		text-align:right;
 		font-weight: bold;
 		padding-right: 5px;
-		font-size: 8pt;
+		font-size: 9pt;
 	}
 	td.ingredient {
-		font-size: 8pt;
+		font-size: 9pt;
 	}
 	
 	img.image {
 /* 	    position: absolute; */
 /* 		left: 130mm; */
 /* 		top: 100px; */
-		width: 102mm;
-		margin-bottom: 10mm;
+		width: 52mm;
+		float: left;
+
+		margin-bottom: 2mm;
 	}
 
 	#title-content-container {
@@ -128,9 +131,7 @@
 		margin-right: 6mm;
 	}
 	
-	#image-ingredients-container {
-		float: left;
-	}
+	
 	
 	table#ingredients {
 		width: 100%;
