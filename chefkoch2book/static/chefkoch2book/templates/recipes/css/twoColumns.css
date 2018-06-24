@@ -71,7 +71,7 @@
 
 /* 		width: 100mm; */
 /* 		position: absolute;  */
-		width: 48mm;
+		width: 46mm;
 		font-size: 8pt;
 		float: right;
 		padding: 2mm 0mm 2mm 2mm;
@@ -117,7 +117,7 @@
 /* 	    position: absolute; */
 /* 		left: 130mm; */
 /* 		top: 100px; */
-		width: 50mm;
+		max-width: 52mm;
 		float: left;
 		max-height: 50mm;
 		

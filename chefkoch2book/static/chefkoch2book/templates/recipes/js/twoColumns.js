@@ -140,7 +140,7 @@ function addRecipe(recipe) {
 	}
 	
 	col.append(recipeDiv);
-	let recipeHeight = $('#r-'+id).outerHeight();
+	let recipeHeight = $('#r-'+id).outerHeight(true);
 
 	if(page.cursor[1] + recipeHeight > col.height()) {
 		// if ingredients list small enough, try to cut content of, else new page
@@ -170,7 +170,7 @@ function addRecipe(recipe) {
 				
 				i++;
 			}
-			page.cursor[1] = $('#cc-'+id).outerHeight();
+			page.cursor[1] = $('#cc-'+id).outerHeight(true);
 			return;
 		}else {
 			$('#r-'+id).remove();
@@ -185,7 +185,7 @@ function addRecipe(recipe) {
 		}
 		
 	}
-	page.cursor[1] += recipeHeight;
+	page.cursor[1] = $('#r-'+id).position()["top"] + recipeHeight;
 }
 
 function splitContent(string, pos) {
