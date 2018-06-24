@@ -1,7 +1,9 @@
 from django.shortcuts import render
 from django.http import HttpResponse, JsonResponse
 from django.views.decorators.csrf import ensure_csrf_cookie
+from django.conf import settings
 import re
+import os
 
 from bs4 import BeautifulSoup
 import urllib3
@@ -32,7 +34,10 @@ def makelist(table):
 
 @ensure_csrf_cookie
 def index(request):
-    return render(request, 'chefkoch2book/index.html', {'text' : 'hallo'})
+    bg_images_list = os.listdir(os.path.join(settings.BASE_DIR, "chefkoch2book/static/chefkoch2book/backgrounds/chapters"))
+    #backgoundimages =
+    
+    return render(request, 'chefkoch2book/index.html', {'backgroundimages' : json.dumps(bg_images_list)})
 
 
 def get_recipe_data(url):
@@ -139,9 +144,10 @@ def render_recipe(request, template):
 
 
 def render_book(request):
-    
+    bg_images_list = os.listdir(os.path.join(settings.BASE_DIR, "chefkoch2book/static/chefkoch2book/backgrounds/chapters"))
     recipes = request.POST['jsonData']
     data = {"recipes": recipes}
+    
 
     return render(request, 'chefkoch2book/recipes/twoColumns/twoColumns.html', data)
 

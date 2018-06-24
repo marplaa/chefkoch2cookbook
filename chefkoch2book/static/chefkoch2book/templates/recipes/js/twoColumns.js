@@ -53,7 +53,7 @@ function buildChapter(chapter) {
 	}
 }
 
-function getPageTemplate (id, side) {
+function getPageTemplate(id, side) {
 	return '<div id="' + id + '" class="'+ side +'-page page">\
 	          <div class="background"></div> \
 	          <div class="chapter-container"> \
@@ -66,7 +66,7 @@ function getPageTemplate (id, side) {
           </div>';
 }
 
-function getChapterPageTemplate (id, side) {
+function getChapterPageTemplate(id, side) {
 	return '<div id="' + id + '" class="'+ side +'-page page">\
 	          <div class="background"></div> \
 	          <div class="chapter-page-title-container"> \
@@ -96,20 +96,21 @@ function addChapterPage(chapter) {
 	if (pages.length%2==0) {
 		side = "r";
 	}
-	let newPage = {elem: "", chapter: chapter, side: side, num: nextnum, content: ""};
+	let newPage = {elem: "", chapter: chapter, side: side, num: nextnum, content: "", bg: ""};
 	pages.push(newPage);
 	
 	let id = "p-" + newPage.num;
-	let side = page.side;
-	let newPage = $(getPageTemplate(id, side));
-	dom.append(newPage);
+	
+	let newPageHtml = $(getChapterPageTemplate(id, side));
+	dom.append(newPageHtml);
 	let element = $('#' + id);
-	$(element).find('.chapter-page-title-container span').text(page.chapter.title);
-	page.elem = element;
-	if (page.bg == "") {
-		page.bg = recipe.bg;
-		$(page.elem).find(".background").css("background-image", 'url("' + recipe.bg + '")');
+	$(element).find('.chapter-page-title-container span').text(newPage.chapter.title);
+	newPage.elem = element;
+	if (newPage.bg == "") {
+		newPage.bg = chapter.bg;
+		$(newPage.elem).find(".background").css("background-image", 'url("' + chapter.bg + '")');
 	}
+	addPage(chapter);
 }
 
 function appendPageToDom(page){
