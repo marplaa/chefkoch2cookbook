@@ -44,11 +44,17 @@ function buildChapter(chapter) {
 	if ('nodes' in chapter) {
 		// is indeed chapter
 		addChapterPage(chapter);
+		if (!('nodes' in chapter.nodes[0])){
+			addPage(chapter);
+		}
 		for (let i = 0; i<chapter.nodes.length; i++){
+			
 			buildChapter(chapter.nodes[i]);
+			
 		}
 	} else {
 		// is recipe
+		
 		addRecipe(chapter);
 	}
 }
@@ -68,7 +74,7 @@ function getPageTemplate(id, side) {
 
 function getChapterPageTemplate(id, side) {
 	return '<div id="' + id + '" class="'+ side +'-page page">\
-	          <div class="background"></div> \
+	          <div class="chapter-page"></div> \
 	          <div class="chapter-page-title-container"> \
 	            <div class="transbox">\
 		           <span></span>\
@@ -108,9 +114,8 @@ function addChapterPage(chapter) {
 	newPage.elem = element;
 	if (newPage.bg == "") {
 		newPage.bg = chapter.bg;
-		$(newPage.elem).find(".background").css("background-image", 'url("' + chapter.bg + '")');
+		$(newPage.elem).find(".chapter-page").css("background-image", 'url("' + chapter.bg + '")');
 	}
-	addPage(chapter);
 }
 
 function appendPageToDom(page){
