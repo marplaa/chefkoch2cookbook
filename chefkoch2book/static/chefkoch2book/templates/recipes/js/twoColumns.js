@@ -161,7 +161,7 @@ function addRecipe(recipe) {
 			}
 			col.append(newContentDiv);
 			let sliceIndex, leftContent, rightContent;
-			while(page.cursor[1] + $('#r-'+id).outerHeight()>col.height()) {
+			while(page.cursor[1] + $('#r-'+id).outerHeight() > col.height()) {
 				sliceIndex = splitContent(recipe.content, i);
 				leftContent = recipe.content.slice(0,sliceIndex);
 				rightContent = recipe.content.slice(sliceIndex+1);
@@ -181,6 +181,7 @@ function addRecipe(recipe) {
 				addPage(page.chapter);
 			}
 			addRecipe(recipe);
+			return;
 		}
 		
 	}
