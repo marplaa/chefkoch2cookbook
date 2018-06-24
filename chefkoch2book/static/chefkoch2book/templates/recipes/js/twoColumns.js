@@ -110,7 +110,7 @@ function addChapterPage(chapter) {
 	let element = $('#' + id);
 	$(element).find('.chapter-page-title-container span').text(newPage.chapter.title);
 	newPage.elem = element;
-	if (newPage.bg == "") {
+	if (newPage.bg == "" && chapter.bg != null) {
 		newPage.bg = chapter.bg;
 		$(newPage.elem).find(".chapter-page").css("background-image", 'url("' + chapter.bg + '")');
 	}

@@ -10,6 +10,7 @@ div.page {
 div.background {
 	position: absolute;
 	background-size: cover;
+	-webkit-filter: blur(3px);
 	filter: blur(3px);
 	left: 0px;
 	top: 0px;
@@ -60,7 +61,7 @@ div.title-container {
 }
 
 div.content-container {
-	font-size: 9pt;
+	font-size: 12px;
 	padding: 3mm;
 	line-height: 1.3em;
 	background: rgba(255, 255, 255, 0.7);
@@ -75,7 +76,6 @@ div.ingredients-container {
 	/* 		width: 100mm; */
 	/* 		position: absolute;  */
 	width: 46mm;
-	font-size: 8pt;
 	float: right;
 	padding: 2mm 0mm 2mm 2mm;
 }
@@ -107,12 +107,12 @@ td.amount {
 	text-align: right;
 	font-weight: bold;
 	padding-right: 5px;
-	font-size: 9pt;
+	font-size: 12px;
 	width: 10mm;
 }
 
 td.ingredient {
-	font-size: 9pt;
+	font-size: 12px;
 }
 
 img.image {
