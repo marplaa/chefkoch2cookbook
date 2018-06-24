@@ -419,7 +419,7 @@ function showRecipeOptionsModal(recipeString) {
 
 function showChapterOptionsModal(chapterString) {
 	var chapter = getChapterFromString(chapterString);
-	$('#chapter-bg-chooser-button').attr("onclick", "showChapterImagePicker(" + chapterString + ");");
+	$('#chapter-bg-chooser-button').attr("onclick", "showChapterImagePicker('" + chapterString + "');");
 	$('#chapter-bg-thumb').attr("src", chapter.bg);
 	$("#chapter-options-modal").modal("show");
 	

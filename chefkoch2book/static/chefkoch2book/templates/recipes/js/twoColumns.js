@@ -76,9 +76,7 @@ function getChapterPageTemplate(id, side) {
 	return '<div id="' + id + '" class="'+ side +'-page page">\
 	          <div class="chapter-page"></div> \
 	          <div class="chapter-page-title-container"> \
-	            <div class="transbox">\
 		           <span></span>\
-	            </div>\
               </div>\
           </div>';
 }
@@ -130,7 +128,7 @@ function appendPageToDom(page){
 }
 
 function buildIngredientsTable(ingredients) {
-    var result = "<table>";
+    var result = '<table class="ingredients">';
     for(var i=0; i<ingredients.length; i++) {
         result += "<tr>";
         result += '<td class="amount">'+ingredients[i][0]+'</td>';
@@ -152,11 +150,11 @@ function addRecipe(recipe) {
 		col = $(page.elem).find('div.left-col');
 	}
 	
-	let recipeDiv = $('<div id="r-' + id + '"></div>');
+	let recipeDiv = $('<div id="r-' + id + '" class="recipe-container"></div>');
 	
 	let title = $('<div id="t-' + id + '" class="title-container"><span>' + recipe.title + '</span></div>');
-	let image = $('<img id="i-' + id + '" class="image" src="' + recipe.img + '">');
-	let ingredients = $('<div id="z-' + id + '" class="ingredients-container">' + buildIngredientsTable(recipe.ingredients) + '</div>');
+	let image = $('<img id="i-' + id + '" class="image clearfix" src="' + recipe.img + '">');
+	let ingredients = $('<div id="z-' + id + '" class="ingredients-container clearfix">' + buildIngredientsTable(recipe.ingredients) + '</div>');
 	let content = $('<div id="c-' + id + '" class="content-container"><span>' + recipe.content + '</span></div>');
 	
 	recipeDiv.append(title,image,ingredients,content);
@@ -172,9 +170,9 @@ function addRecipe(recipe) {
 	if(page.cursor[1] + recipeHeight > col.height()) {
 		// if ingredients list small enough, try to cut content of, else new page
 		
-		if(page.cursor[1] + $('#t-'+id).outerHeight(true) + $('#z-'+id).outerHeight(true) < col.height()) {
+		if(page.cursor[1] + $('#t-'+id).outerHeight(true) + $('#z-'+id).outerHeight(true) < col.height()-10) {
 			let i = 0;
-			let newContentDiv = $('<div id="cc-' + id + '" class="content-container"><span></span></div>');
+			let newContentDiv = $('<div class="recipe-container"><div id="cc-' + id + '" class="content-container"><span></span></div></div>');
 			if (page.cursor[0]=="l") {
 				//continue on right column
 				col = $(page.elem).find('div.right-col');
