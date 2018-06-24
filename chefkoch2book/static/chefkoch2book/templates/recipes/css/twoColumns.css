@@ -39,9 +39,17 @@
 	}
 	
 	.r-page {
+		float: left;
+		margin-left: 10px;
+	}
+	.r-page:after{
+	content: '';
+    display: block;
+    clear: both;
 	}
 	
 	.l-page {
+		float: left;
 	}
 	
 	div.r-page .chapter-container {
