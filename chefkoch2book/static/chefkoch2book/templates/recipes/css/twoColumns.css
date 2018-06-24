@@ -116,6 +116,7 @@
 		font-weight: bold;
 		padding-right: 5px;
 		font-size: 9pt;
+		min-width: 12mm;
 	}
 	td.ingredient {
 		font-size: 9pt;
@@ -155,6 +156,30 @@
 	#footer table {
 		table-layout: fixed;
 		width: 100%;
+	}
+	
+	div.chapter-page {
+		position: absolute;
+		background-size: cover;
+		left: 0px;
+		top: 0px;
+		width: 209mm;
+		height: 275mm;
+		z-index: 0;
+	}
+	
+	div.r-page .chapter-page-title-container {
+		position: relative;
+		top: 30mm;
+		right: 0px;
+		width: 150mm;
+	}
+	
+	div.l-page .chapter-page-title-container {
+		position: relative;
+		top: 30mm;
+		left: 0px;
+		width: 150mm;
 	}
 	
 
