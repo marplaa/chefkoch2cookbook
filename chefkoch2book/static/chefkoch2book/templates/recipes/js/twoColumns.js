@@ -145,23 +145,25 @@ function addRecipe(recipe) {
 	if(page.cursor[1] + recipeHeight > col.height()) {
 		// if ingredients list small enough, try to cut content of, else new page
 		
-		if(page.cursor[1] + $('#z-'+id).outerHeight() < col.height()) {
+		if(page.cursor[1] + $('#t-'+id).outerHeight(true) + $('#z-'+id).outerHeight(true) < col.height()) {
 			let i = 0;
 			let newContentDiv = $('<div id="cc-' + id + '" class="content-container"><span></span></div>');
 			if (page.cursor[0]=="l") {
 				//continue on right column
 				col = $(page.elem).find('div.right-col');
 				page.cursor[0]="r";
+				col.append(newContentDiv);
 			} else {
 				// new page
 				addPage(page.chapter);
-				page = pages[pages.length -1];
+				var newPage = pages[pages.length -1];
 				
-				col = $(page.elem).find('div.left-col');
+				var newCol = $(newPage.elem).find('div.left-col');
+				newCol.append(newContentDiv);
 			}
-			col.append(newContentDiv);
+			
 			let sliceIndex, leftContent, rightContent;
-			while(page.cursor[1] + $('#r-'+id).outerHeight() > col.height()) {
+			while(page.cursor[1] + $('#t-'+id).outerHeight(true) + $('#r-'+id).outerHeight(true) > col.height()) {
 				sliceIndex = splitContent(recipe.content, i);
 				leftContent = recipe.content.slice(0,sliceIndex);
 				rightContent = recipe.content.slice(sliceIndex+1);
@@ -170,7 +172,12 @@ function addRecipe(recipe) {
 				
 				i++;
 			}
-			page.cursor[1] = $('#cc-'+id).outerHeight(true);
+			if (newPage) {
+				newPage.cursor[1] = $('#cc-'+id).outerHeight(true);
+			} else {
+				page.cursor[1] = $('#cc-'+id).outerHeight(true);
+			}
+			
 			return;
 		}else {
 			$('#r-'+id).remove();
