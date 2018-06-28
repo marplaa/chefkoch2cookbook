@@ -150,7 +150,7 @@ div.footer {
 	top: 294mm;
 	left: 0px;
 	width: 208mm;
-	padding: 3mm;
+	padding: 3mm 3mm 4mm 3mm;
 	background: rgba(255, 255, 255, 0.7);
 }
 

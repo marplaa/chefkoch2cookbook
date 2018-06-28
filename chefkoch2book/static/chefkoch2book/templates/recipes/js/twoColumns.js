@@ -48,7 +48,6 @@ function buildChapter(chapter) {
 			addPage(chapter);
 		}
 		for (let i = 0; i<chapter.nodes.length; i++){
-			
 			buildChapter(chapter.nodes[i]);
 			
 		}
@@ -66,7 +65,7 @@ function getPageTemplate(id, side, pagenum) {
 		           <span></span>\
               </div>\
               <div class="left-col col"></div>\
-              <div class="right-col col"></div><div class="footer">Seite <span class="pagenum">' + pagenum + '</span></div>\
+              <div class="right-col col"></div><div class="footer"><span class="pagenum">' + pagenum + '</span></div>\
           </div>';
 }
 
@@ -120,7 +119,7 @@ function appendPageToDom(page){
 	let newPage = $(getPageTemplate(id, side, page.num));
 	dom.append(newPage);
 	let element = $('#' + id);
-	$(element).find('.chapter-container span').text(page.chapter.title);
+	$(element).find('.chapter-container span').text(getChapterTitles(page.chapter.chapterPath, " | "));
 	page.elem = element;
 	return element;
 }
@@ -227,4 +226,23 @@ function splitContent(string, pos) {
 		currentPos--;
 	}
 	return currentPos+1;
+}
+
+function getChapterTitles(chapter, delimeter) {
+	var titles = [];
+	if (chapter == "0"){
+		return [];
+	}
+	
+	var path = chapter.split("-");
+	var currentChapter = recipes[0];
+	
+	for (var i = 1; i< path.length;i++) {
+		currentChapter = _.findWhere(currentChapter.nodes, {id : path[i]});
+		titles.push(currentChapter.title);
+	}
+
+	
+	// alert(currentChapter["text"]);
+	return titles.join(delimeter);
 }

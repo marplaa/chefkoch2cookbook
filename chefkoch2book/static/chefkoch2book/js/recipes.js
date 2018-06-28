@@ -243,6 +243,7 @@ function newChapter(title, chapterString){
 	chapter["title"] = title;
 	chapter["id"] = id;
 	chapter["nodes"]=[];
+	chapter["chapterPath"] = chapterString + "-" + id;
 	
 	parentChapter.nodes.push(chapter);
 	
@@ -343,6 +344,8 @@ function buildIngredientsTable(ingredients) {
 }
 
 function buildBook() {
+	
+	
 	
 }
 
