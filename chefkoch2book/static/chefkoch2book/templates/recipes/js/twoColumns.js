@@ -59,16 +59,14 @@ function buildChapter(chapter) {
 	}
 }
 
-function getPageTemplate(id, side) {
+function getPageTemplate(id, side, pagenum) {
 	return '<div id="' + id + '" class="'+ side +'-page page">\
 	          <div class="background"></div> \
 	          <div class="chapter-container"> \
-	            <div class="transbox">\
 		           <span></span>\
-	            </div>\
               </div>\
               <div class="left-col col"></div>\
-              <div class="right-col col"></div>\
+              <div class="right-col col"></div><div class="footer">Seite <span class="pagenum">' + pagenum + '</span></div>\
           </div>';
 }
 
@@ -119,7 +117,7 @@ function addChapterPage(chapter) {
 function appendPageToDom(page){
 	let id = "p-" + page.num;
 	let side = page.side;
-	let newPage = $(getPageTemplate(id, side));
+	let newPage = $(getPageTemplate(id, side, page.num));
 	dom.append(newPage);
 	let element = $('#' + id);
 	$(element).find('.chapter-container span').text(page.chapter.title);
