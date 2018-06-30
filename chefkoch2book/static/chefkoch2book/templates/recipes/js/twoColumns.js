@@ -167,7 +167,7 @@ function addRecipe(recipe) {
 	if(page.cursor[1] + recipeHeight > col.height()) {
 		// if ingredients list small enough, try to cut content of, else new page
 		
-		if(page.cursor[1] + $('#t-'+id).outerHeight(true) + $('#z-'+id).outerHeight(true) < col.height()-10) {
+		if(page.cursor[1] + $('#t-'+id).outerHeight(true) + $('#z-'+id).outerHeight(true) < col.height()) {
 			let i = 0;
 			let newContentDiv = $('<div class="recipe-container"><div id="cc-' + id + '" class="content-container"><span></span></div></div>');
 			if (page.cursor[0]=="l") {
@@ -178,6 +178,7 @@ function addRecipe(recipe) {
 			} else {
 				// new page
 				addPage(page.chapter);
+				pages[pages.length-1].elem.find(".background").css("background-image", 'url("' + recipe.bg + '")');
 				var newPage = pages[pages.length -1];
 				
 				var newCol = $(newPage.elem).find('div.left-col');
@@ -185,14 +186,22 @@ function addRecipe(recipe) {
 			}
 			
 			let sliceIndex, leftContent, rightContent;
-			while(page.cursor[1] + $('#t-'+id).outerHeight(true) + $('#r-'+id).outerHeight(true) > col.height()) {
+			let finished = false;
+			while ((page.cursor[1] + $('#t-'+id).outerHeight(true) + $('#r-'+id).outerHeight(true) > col.height()+25)&& !finished) {
 				sliceIndex = splitContent(recipe.content, i);
-				leftContent = recipe.content.slice(0,sliceIndex);
-				rightContent = recipe.content.slice(sliceIndex+1);
+				if (sliceIndex<=0) {
+					leftContent = "&nbsp;&nbsp;&nbsp;&nbsp;"; //"&nbsp;&nbsp;&nbsp;";
+					rightContent = recipe.content;
+					finished = true;
+				} else {
+					leftContent = recipe.content.slice(0,sliceIndex);
+					rightContent = recipe.content.slice(sliceIndex+1);
+				}
 				$('#c-'+id + ' span').html(leftContent);
 				$('#cc-'+id + ' span').html(rightContent);
 				
 				i++;
+			
 			}
 			if (newPage) {
 				newPage.cursor[1] = $('#cc-'+id).outerHeight(true);
@@ -220,7 +229,7 @@ function addRecipe(recipe) {
 function splitContent(string, pos) {
 	let currentPos = string.length-1;
 	for (let i = 0; i<pos; i++) {
-		while (string[currentPos] != ' ') {
+		while (string[currentPos] != ' ' && currentPos >= -1) {
 			currentPos--;
 		}
 		currentPos--;

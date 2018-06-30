@@ -186,6 +186,7 @@ div.l-page .chapter-page-title-container {
 	top: 30mm;
 	left: 0px;
 	width: 150mm;
+	text-align: right;
 }
 
 .chapter-page-title-container span {
