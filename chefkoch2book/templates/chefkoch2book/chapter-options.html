@@ -5,32 +5,49 @@
 
 	Wähle ein Bild für den Hintergrund des Kapitels:</br>
 
-	
-	
+
+
 
 </div>
 
 
 
-<div class="tab-pane fade" id="chapter-image-options"
-	role="tabpanel" aria-labelledby="chapter-image-tab"
-	style="padding: 10px">
+<div class="tab-pane fade" id="chapter-image-options" role="tabpanel"
+	aria-labelledby="chapter-image-tab" style="padding: 10px">
 
-	Wähle ein Bild für den Hintergrund :</br>
-	
-	<div style="margin: 5px;">
-	<img id="chapter-bg-thumb" class="recipe-img-prev">
-	<a style="margin-top: 5px; width:100%;" id="chapter-bg-chooser-button" onclick="showChapterImagePicker();" href="#" class="btn btn-primary">Hintergrundbild</a>
-	
+	Wähle ein Bild für den Hintergrund:</br>
+
+	<div style="float: left; width: 400px;">
+
+		<form>
+
+
+			<div class="form-group">
+				<label for="chapter_bg_url_input">URL:</label> <input type="text"
+					class="form-control" id="chapter_bg_url_input"></input>
+			</div>
+
+		</form>
+		oder klicke "Bild auswählen" um aus einer Liste ein Hintergrundbild
+		auszuwählen: </br> <a style="margin-top: 5px; width: 100%;"
+			id="chapter-bg-chooser-button" onclick="showChapterImagePicker();"
+			href="#" class="btn btn-primary">Bild auswählen</a>
+
+
 	</div>
-	
-	
+
+	<div style="margin: 5px; width: 200px; float: right;">
+		<img id="chapter-bg-thumb" class="recipe-img-prev">
+
+	</div>
+	<div class="clearfix"></div>
+
 
 </div>
 
 
 <div class="tab-pane fade" id="recipe-content-options" role="tabpanel"
 	aria-labelledby="recipe-content-tab">...</div>
-	
+
 <div class="tab-pane fade" id="recipte-ingredients-options"
 	role="tabpanel" aria-labelledby="recipe-ingredients-tab">...</div>

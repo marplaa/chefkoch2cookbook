@@ -348,9 +348,7 @@ var bgImages = {{backgroundimages|safe}};
 				<div class="modal-footer">
 					<button type="button" class="btn btn-secondary"
 						data-dismiss="modal">Close</button>
-					<button type="button" class="btn btn-primary"
-						onclick='$("#load-file-modal").modal("hide");uploadBook();'>Save
-						changes</button>
+					<button type="button" class="btn btn-primary" id="chapter_options_modal_save_button">Übernehmen</button>
 				</div>
 			</div>
 		</div>
@@ -384,7 +382,7 @@ var bgImages = {{backgroundimages|safe}};
 	</div>
 
 	<div class="modal" tabindex="-1" role="dialog" id="image-chooser-modal">
-		<div class="modal-dialog" role="document">
+		<div class="modal-dialog" role="document" style="max-width: 600px; width: 600px;">
 			<div class="modal-content">
 				<div class="modal-header">
 					<h5 class="modal-title">Wähle ein Bild aus</h5>
@@ -405,8 +403,7 @@ var bgImages = {{backgroundimages|safe}};
 					<button type="button" class="btn btn-secondary"
 						data-dismiss="modal">Close</button>
 					<button id="image-chooser-select-button" type="button" class="btn btn-primary"
-						onclick=''>Save
-						changes</button>
+						onclick=''>OK</button>
 				</div>
 			</div>
 		</div>

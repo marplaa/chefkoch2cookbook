@@ -244,12 +244,26 @@ function newChapter(title, chapterString){
 	chapter["id"] = id;
 	chapter["nodes"]=[];
 	chapter["chapterPath"] = chapterString + "-" + id;
+	chapter["bg"] = getChapterBg(chapterString);
 	
 	parentChapter.nodes.push(chapter);
 	
 	parentChapter["nodes"] = _.sortBy(parentChapter["nodes"], "title");
 	$("#recipe-tree").treeview(tree_view_options); 
 	$("#recipe-tree").treeview("expandAll", {  silent: true });
+}
+
+
+
+function getChapterBg(chapterString) {
+	//let titles = getChapterTitles(chapterString);
+	if (chapterString == "0"){
+		return '/static/chefkoch2book/backgrounds/patterns/kitchen_01.jpg';
+	} else {
+		let chapters = chapterString.split("-");
+		let chapter = getChapterFromArray(_.first(chapters,chapters.length));
+		return chapter.bg;
+	}
 }
 
 function deleteRecipe(recipeString) {
@@ -422,52 +436,61 @@ function showRecipeOptionsModal(recipeString) {
 
 function showChapterOptionsModal(chapterString) {
 	var chapter = getChapterFromString(chapterString);
+	//$('#chapter-bg-chooser-button').attr("onclick", "showChapterImagePicker('" + chapterString + "');");
 	$('#chapter-bg-chooser-button').attr("onclick", "showChapterImagePicker('" + chapterString + "');");
 	$('#chapter-bg-thumb').attr("src", chapter.bg);
+	$('#chapter_options_modal_save_button').attr("onclick", "saveChapterOptions('" + chapterString + "');$('#chapter-options-modal').modal('hide');");
 	$("#chapter-options-modal").modal("show");
 	
 }
 
-function showChapterImagePicker(chapterString){
+function saveChapterOptions(chapterString) {
+	let chapter = getChapterFromString(chapterString);
 	
-	for (var i=0;i<bgImages.length; i++) {
-		option = '<option data-img-src="' + bgFolder + bgImages[i] + '" value="'+ i +'"></option>';
-		$('#recipe-image-picker').append(option);
-	}
-	$('#image-chooser-select-button').attr("onclick", "saveChapterImage('" + chapterString + "', $('#recipe-image-picker').val());$('#image-chooser-modal').modal('hide');");
-	$('#recipe-image-picker').imagepicker();
-	$("#image-chooser-modal").modal("show");
+	chapter['bg'] = $('#chapter_bg_url_input').val();
+
 	
 }
 
-function showImagePicker(recipeString, context){
-	
-	var recipe = getRecipe(recipeString);
+function showChapterImagePicker(chapterString){
+	$('#recipe-image-picker').empty();
+	for (var i=0;i<bgImages.length; i++) {
+		option = '<option data-img-src="' + bgFolder + bgImages[i] + '" value="'+  bgFolder + bgImages[i]  +'"></option>';
+		$('#recipe-image-picker').append(option);
+	}
+	$('#image-chooser-select-button').attr("onclick", "$('#chapter_bg_url_input').val($('#recipe-image-picker').val());$('#chapter-bg-thumb').attr('src', $('#recipe-image-picker').val());$('#image-chooser-modal').modal('hide');");
+	$('#recipe-image-picker').imagepicker();
+	$("#image-chooser-modal").modal("show");
+}
+
+function showImagePicker(path, context){
+	$('#recipe-image-picker').empty();
+	var recipe = getRecipe(path);
 	var option = "";
 	for (var i=0;i<recipe['images'].length; i++) {
-		option = '<option data-img-src="' + recipe['images'][i] + '" value="'+ i +'"></option>';
+		option = '<option data-img-src="' + recipe['images'][i] + '" value="'+ recipe['images'][i] +'"></option>';
 		$('#recipe-image-picker').append(option);
 	}
-	$('#image-chooser-select-button').attr("onclick", "saveRecipeImage('" + recipeString + "', $('#recipe-image-picker').val(), '" + context + "');$('#image-chooser-modal').modal('hide');");
+	$('#image-chooser-select-button').attr("onclick", "saveRecipeImage('" + path + "', $('#recipe-image-picker').val(), '" + context + "');$('#image-chooser-modal').modal('hide');");
 	$('#recipe-image-picker').imagepicker();
 	$("#image-chooser-modal").modal("show");
 	
 }
 
-function saveRecipeImage(recipeString, index, context) {
+function saveRecipeImage(recipeString, url, context) {
 	var recipe = getRecipe(recipeString);
 	if (context == "img") {
-		recipe['img'] = recipe['images'][index];
+		recipe['img'] = url;
 	} else {
-		recipe['bg'] = recipe['images'][index];
+		recipe['bg'] = url;
 	}
 	$('#recipe-img-thumb').attr("src", recipe.img);
 	$('#recipe-bg-thumb').attr("src", recipe.bg);
 }
 
-function saveChapterImage(chapterString, index) {
+function saveChapterImage(chapterString, url) {
 	let chapter = getChapterFromString(chapterString);
-	chapter['bg'] = bgFolder + bgImages[index];
+	chapter['bg'] = url;
 
 	$('#chapter-bg-thumb').attr("src", chapter.bg);
 }
