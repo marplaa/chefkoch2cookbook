@@ -1,5 +1,5 @@
 
-<div class="tab-pane fade show active" id="chapter-template-options"
+<div class="tab-pane fade" id="chapter-template-options"
 	role="tabpanel" aria-labelledby="chapter-template-tab"
 	style="padding: 10px">
 
@@ -12,7 +12,7 @@
 
 
 
-<div class="tab-pane fade" id="chapter-image-options" role="tabpanel"
+<div class="tab-pane fade show active" id="chapter-image-options" role="tabpanel"
 	aria-labelledby="chapter-image-tab" style="padding: 10px">
 
 	Wähle ein Bild für den Hintergrund:</br>
@@ -24,7 +24,7 @@
 
 			<div class="form-group">
 				<label for="chapter_bg_url_input">URL:</label> <input type="text"
-					class="form-control" id="chapter_bg_url_input"></input>
+					class="form-control" id="chapter_bg_url_input" onpaste="setTimeout(function(){$('#chapter-bg-thumb').attr('src',$('#chapter_bg_url_input').val())},0);"></input>
 			</div>
 
 		</form>
@@ -36,8 +36,8 @@
 
 	</div>
 
-	<div style="margin: 5px; width: 200px; float: right;">
-		<img id="chapter-bg-thumb" class="recipe-img-prev">
+	<div style="margin: 5px; width: 200px; float: right;" >
+		<img id="chapter-bg-thumb" class="recipe-img-prev img-thumbnail">
 
 	</div>
 	<div class="clearfix"></div>

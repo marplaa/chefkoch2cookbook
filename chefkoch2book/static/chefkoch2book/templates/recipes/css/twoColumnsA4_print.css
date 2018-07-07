@@ -127,6 +127,7 @@ img.image {
 	margin-right: 2mm;
 	margin-bottom: 2mm;
 	object-fit: cover;
+	object-position: 50% 50%;
 }
 
 #title-content-container {
@@ -166,6 +167,7 @@ div.footer {
 div.chapter-page {
 	position: absolute;
 	background-size: cover;
+	background-position: 50% 50%;
 	left: 0px;
 	top: 0px;
 	width: 214mm;

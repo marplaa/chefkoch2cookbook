@@ -474,7 +474,6 @@ function showImagePicker(path, context){
 	$('#image-chooser-select-button').attr("onclick", "saveRecipeImage('" + path + "', $('#recipe-image-picker').val(), '" + context + "');$('#image-chooser-modal').modal('hide');");
 	$('#recipe-image-picker').imagepicker();
 	$("#image-chooser-modal").modal("show");
-	
 }
 
 function saveRecipeImage(recipeString, url, context) {

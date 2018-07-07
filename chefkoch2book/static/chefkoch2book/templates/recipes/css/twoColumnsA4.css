@@ -122,6 +122,7 @@ img.image {
 	margin-right: 2mm;
 	margin-bottom: 2mm;
 	object-fit: cover;
+	object-position: 50% 50%;
 }
 
 #title-content-container {
