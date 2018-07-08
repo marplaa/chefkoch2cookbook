@@ -2,6 +2,8 @@ var recipes = [{id : "0", title: "Kochbuch", text: 'Kochbuch<a onclick="showChap
 
 var list_str = ""
 	
+var bgFolder = '/static/chefkoch2book/backgrounds/chapters/';
+	
 String.prototype.hashCode = function() {
 
     var hash = Math.floor(Math.random()*100);
@@ -23,7 +25,6 @@ var tree_view_options =
 		collapseIcon:"fas fa-angle-up",
 		emptyIcon:"far fa-file-alt",
 		highlightSelected: false,
-			
 }
 
 $(document).ready(document_ready);	
@@ -216,7 +217,7 @@ function saveRecipe(recipeData, chapterString){
 	var id = recipeData.title.hashCode();
 	
 	var deleteButton = '<a onclick="deleteRecipe(\'' + chapterString + '-' + id + '\')" style="margin-left:10px;" href="#" class="float-right"><i class="fas fa-minus-square fa-lg" style="color: gray"></i></a>';
-	var previewButton = '<a onclick="showPreview(\'' + chapterString + '-' + id + '\')" style="margin-left:10px;" href="#" class="float-right"><i class="fas fa-eye fa-lg" style="color: gray"></i></a>'
+	var previewButton = '';//'<a onclick="showPreview(\'' + chapterString + '-' + id + '\')" style="margin-left:10px;" href="#" class="float-right"><i class="fas fa-eye fa-lg" style="color: gray"></i></a>'
 	var optionsButton = '<a onclick="showRecipeOptionsModal(\'' + chapterString + '-' + id + '\');" style="margin-left:10px;" href="#" class="float-right"><i class="fas fa-cog fa-lg" style="color: gray"></i></a>'
 	var dataText = recipeData.title + deleteButton + optionsButton + previewButton;
 	recipeData["text"] = dataText;
@@ -233,18 +234,35 @@ function saveRecipe(recipeData, chapterString){
 function newChapter(title, chapterString){
 	var parentChapter = getChapterFromString(chapterString);
 	var id = title.hashCode();
-	var dataText = title + '<a onclick="showRecipeModal(\'' + chapterString + '-' + id + '\')" href="#" class="recipe-list-button float-right"><i class="fas fa-plus-square fa-lg" style="color: green"></i>Rezept</a> <a onclick="showChapterModal(\'' + chapterString + '-' + id + '\')" href="#" class="recipe-list-button float-right"><i class="fas fa-plus-square fa-lg" style="color: green"></i>Kapitel</a> <a onclick="deleteChapter(\'' + chapterString + '-' + id + '\')" href="#" class="recipe-list-button float-right"><i class="fas fa-minus-square fa-lg" style="color: gray"></i></a>' ;
+	var optionsButton = '<a onclick="showChapterOptionsModal(\'' + chapterString + '-' + id + '\');" style="margin-left:10px;" href="#" class="float-right"><i class="fas fa-cog fa-lg" style="color: gray"></i></a>'
+	let deleteButton = '<a onclick="deleteChapter(\'' + chapterString + '-' + id + '\')" href="#" class="recipe-list-button float-right"><i class="fas fa-minus-square fa-lg" style="color: gray"></i></a>';
+	var dataText = title + deleteButton  + optionsButton + '<a onclick="showRecipeModal(\'' + chapterString + '-' + id + '\')" href="#" class="recipe-list-button float-right"><i class="fas fa-plus-square fa-lg" style="color: green"></i>Rezept</a> <a onclick="showChapterModal(\'' + chapterString + '-' + id + '\')" href="#" class="recipe-list-button float-right"><i class="fas fa-plus-square fa-lg" style="color: green"></i>Kapitel</a>';
 	var chapter = {};
 	chapter["text"] = dataText;
 	chapter["title"] = title;
 	chapter["id"] = id;
 	chapter["nodes"]=[];
+	chapter["chapterPath"] = chapterString + "-" + id;
+	chapter["bg"] = getChapterBg(chapterString);
 	
 	parentChapter.nodes.push(chapter);
 	
 	parentChapter["nodes"] = _.sortBy(parentChapter["nodes"], "title");
 	$("#recipe-tree").treeview(tree_view_options); 
 	$("#recipe-tree").treeview("expandAll", {  silent: true });
+}
+
+
+
+function getChapterBg(chapterString) {
+	//let titles = getChapterTitles(chapterString);
+	if (chapterString == "0"){
+		return '/static/chefkoch2book/backgrounds/patterns/kitchen_01.jpg';
+	} else {
+		let chapters = chapterString.split("-");
+		let chapter = getChapterFromArray(_.first(chapters,chapters.length));
+		return chapter.bg;
+	}
 }
 
 function deleteRecipe(recipeString) {
@@ -338,8 +356,52 @@ function buildIngredientsTable(ingredients) {
     return result;
 }
 
+function prepareRecipes(chapter) {
+	if ('text' in chapter) {
+		delete chapter.text;
+	}
+	if ('nodes' in chapter) {
+		for (let i = 0; i<chapter.nodes.length; i++){
+			prepareRecipes(chapter.nodes[i]);
+		}
+	} else {
+		if ('images' in chapter) {
+			delete chapter.images;
+		}
+		if ('url' in chapter) {
+			delete chapter.text;
+		}
+	}
+}
+
+
+function buildBook() {
+	
+	
+	let newRecipes = recipes;
+	prepareRecipes(newRecipes[0]);
+	
+
+	
+	var form = $('<form>')
+    .attr("method", "POST")
+    .attr("action", "/create/render_book/")
+    .attr("target", "_blank");
+	var input = $("<input>").attr("type", "hidden")
+    .attr("name", "jsonData")
+    .attr("value", JSON.stringify(newRecipes));
+	form.append(input);
+	form.append('<input type="hidden" name="csrfmiddlewaretoken" value="'+ csrftoken+'">');
+	$('body').append(form);
+	
+	form.submit();
+	
+	
+}
 
 function buildRecipe(recipeString) {
+	
+	
 	
 	// $("#preview-modal").modal("show");
 	var titles = getChapterTitles(recipeString);
@@ -359,22 +421,37 @@ function buildRecipe(recipeString) {
 	//$.redirect("/create/render_recipe/normal/", recipe, "POST", "_blank", true);
 
 	
-	//var template = _.template(templateString);
-	// $('#preview-container').html(template(recipe));
+	
+//	var form = $('<form>')
+//    .attr("method", "POST")
+//    .attr("action", "/create/render_book/")
+//    .attr("target", "_blank");
+//	var input = $("<input>").attr("type", "hidden")
+//    .attr("name", "jsonData")
+//    .attr("value", JSON.stringify(recipe));
+//	form.append(input);
+//	form.append('<input type="hidden" name="csrfmiddlewaretoken" value="'+ csrftoken+'">');
+//	$('body').append(form);
+//	
+//	form.submit();
+	
+	showPreview();
+	//myWindow.document.write(template(recipe));
+}
+
+function showPreview() {
 	var form = $('<form>')
     .attr("method", "POST")
-    .attr("action", "/create/render_recipe/normal/")
+    .attr("action", "/create/render_book/")
     .attr("target", "_blank");
 	var input = $("<input>").attr("type", "hidden")
     .attr("name", "jsonData")
-    .attr("value", JSON.stringify(recipe));
+    .attr("value", JSON.stringify(recipes));
 	form.append(input);
 	form.append('<input type="hidden" name="csrfmiddlewaretoken" value="'+ csrftoken+'">');
 	$('body').append(form);
 	
 	form.submit();
-	
-	//myWindow.document.write(template(recipe));
 }
 
 function populateTemplate(myWindow, recipeString) {
@@ -393,29 +470,64 @@ function showRecipeOptionsModal(recipeString) {
 	
 }
 
-function showImagePicker(recipeString, context){
-	
-	var recipe = getRecipe(recipeString);
-	var option = "";
-	for (var i=0;i<recipe['images'].length; i++) {
-		option = '<option data-img-src="' + recipe['images'][i] + '" value="'+ i +'"></option>';
-		$('#recipe-image-picker').append(option);
-	}
-	$('#image-chooser-select-button').attr("onclick", "saveRecipeImage('" + recipeString + "', $('#recipe-image-picker').val(), '" + context + "');$('#image-chooser-modal').modal('hide');");
-	$('#recipe-image-picker').imagepicker();
-	$("#image-chooser-modal").modal("show");
+function showChapterOptionsModal(chapterString) {
+	var chapter = getChapterFromString(chapterString);
+	//$('#chapter-bg-chooser-button').attr("onclick", "showChapterImagePicker('" + chapterString + "');");
+	$('#chapter-bg-chooser-button').attr("onclick", "showChapterImagePicker('" + chapterString + "');");
+	$('#chapter-bg-thumb').attr("src", chapter.bg);
+	$('#chapter_options_modal_save_button').attr("onclick", "saveChapterOptions('" + chapterString + "');$('#chapter-options-modal').modal('hide');");
+	$("#chapter-options-modal").modal("show");
 	
 }
 
-function saveRecipeImage(recipeString, index, context) {
+function saveChapterOptions(chapterString) {
+	let chapter = getChapterFromString(chapterString);
+	
+	chapter['bg'] = $('#chapter_bg_url_input').val();
+
+	
+}
+
+function showChapterImagePicker(chapterString){
+	$('#recipe-image-picker').empty();
+	for (var i=0;i<bgImages.length; i++) {
+		option = '<option data-img-src="' + bgFolder + bgImages[i] + '" value="'+  bgFolder + bgImages[i]  +'"></option>';
+		$('#recipe-image-picker').append(option);
+	}
+	$('#image-chooser-select-button').attr("onclick", "$('#chapter_bg_url_input').val($('#recipe-image-picker').val());$('#chapter-bg-thumb').attr('src', $('#recipe-image-picker').val());$('#image-chooser-modal').modal('hide');");
+	$('#recipe-image-picker').imagepicker();
+	$("#image-chooser-modal").modal("show");
+}
+
+function showImagePicker(path, context){
+	$('#recipe-image-picker').empty();
+	var recipe = getRecipe(path);
+	var option = "";
+	for (var i=0;i<recipe['images'].length; i++) {
+		option = '<option data-img-src="' + recipe['images'][i] + '" value="'+ recipe['images'][i] +'"></option>';
+		$('#recipe-image-picker').append(option);
+	}
+	$('#image-chooser-select-button').attr("onclick", "saveRecipeImage('" + path + "', $('#recipe-image-picker').val(), '" + context + "');$('#image-chooser-modal').modal('hide');");
+	$('#recipe-image-picker').imagepicker();
+	$("#image-chooser-modal").modal("show");
+}
+
+function saveRecipeImage(recipeString, url, context) {
 	var recipe = getRecipe(recipeString);
 	if (context == "img") {
-		recipe['img'] = recipe['images'][index];
+		recipe['img'] = url;
 	} else {
-		recipe['bg'] = recipe['images'][index];
+		recipe['bg'] = url;
 	}
 	$('#recipe-img-thumb').attr("src", recipe.img);
 	$('#recipe-bg-thumb').attr("src", recipe.bg);
+}
+
+function saveChapterImage(chapterString, url) {
+	let chapter = getChapterFromString(chapterString);
+	chapter['bg'] = url;
+
+	$('#chapter-bg-thumb').attr("src", chapter.bg);
 }
 
 function handleDrop(e) {
@@ -439,3 +551,5 @@ function handleDrop(e) {
 
 	return false;
 }
+
+

@@ -9,6 +9,10 @@
 <meta name="author" content="">
 <link rel="icon" href="../../favicon.ico">
 
+<script type="text/javascript">
+var bgImages = {{backgroundimages|safe}};
+</script>
+
 <title>Chefkoch zu Kochbuch</title>
 <script src="https://code.jquery.com/jquery-3.3.1.min.js"
 	integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
@@ -72,8 +76,11 @@
 
 		<div id="chapters-card" class="card" style="margin-bottom: 20px;">
 			<div class="card-header">
-				<span style="font-size: 18pt">Kochbuch erstellen</span><a
-					style="margin-left: 5px;"
+				<span style="font-size: 18pt">Kochbuch erstellen</span> <a
+					style="margin-left: 15px;"
+					class="btn btn-sm btn-primary float-right" href="#"
+					onclick="buildBook();"><i class="fas fa-print"></i>
+					Drucken</a> <a style="margin-left: 5px;"
 					class="btn btn-sm btn-secondary float-right" href="#"
 					onclick="downloadBook();"><i class="fas fa-download"></i>
 					Speichern</a><a class="btn btn-sm btn-secondary float-right" href="#"
@@ -97,43 +104,7 @@
 
 		</div>
 
-		<div id="recipes-card" class="card">
-			<div class="card-header">
-				Rezepte auswählen<img
-					src="{% static 'chefkoch2book/icons/interface/svg/list.svg' %}"
-					class="icon float-right">
-			</div>
-			<div class="card-body">
-				<h5 class="card-title">
-					Welche Rezepte sollen für dein Kochbuch zusammengestellt werden?<i
-						class="fas fa-camera-retro"></i>
-				</h5>
-				<p class="card-text">{% csrf_token %}</p>
-				<form></form>
 
-				<div class="dropdown float-right" id="chapter-selection">
-					<a class="btn btn-secondary dropdown-toggle" href="#" role="button"
-						id="addRecipeButton" data-toggle="dropdown" aria-haspopup="true"
-						aria-expanded="false"> Dropdown link </a>
-
-					<div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
-						<a class="dropdown-item" href="#"
-							onclick="addRecipe('https://www.chefkoch.de/rezepte/drucken/1108101216891426/2309481a/1/Apfelkuchen-mit-Streuseln-vom-Blech.html', '0')">Action</a>
-						<a class="dropdown-item" href="#">Another action</a> <a
-							class="dropdown-item" href="#">Something else here</a>
-					</div>
-				</div>
-
-				<div class="clearfix"></div>
-
-			</div>
-
-			<ul class="list-group list-group-flush" id="recipe-list">
-				<li class="list-group-item">Cras justo odio</li>
-				<li class="list-group-item">Dapibus ac facilisis in</li>
-				<li class="list-group-item">Vestibulum at eros</li>
-			</ul>
-		</div>
 	</div>
 
 
@@ -167,26 +138,26 @@
 				</div>
 				<div class="modal-body">
 					<p>Gib hier den Link oder eine durch ; getrennte Liste von
-						Links zum Rezept oder den Rezepten auf Chefkoch an:</p>
+						Links zum Rezept oder den Rezepten auf Chefkoch an. Du kannst auch
+						auf einen Link zu einem Rezept klicken und mit gedrückter
+						Maustaste in das Feld ziehen.</p>
 					<form id="add-recipes-urls">
 
 						<input type="hidden" id="url-list-chapter" name="chapter" value="">
 						<div class="form-group">
 							<label for="recipes_url_list">Rezeptlinks</label>
-							<textarea class="form-control" id="recipes_url_list" rows="5">https://www.chefkoch.de/rezepte/drucken/2654911416926229/2309481a/1/Blechkuchen-Blech-Butterkuchen.html;https://www.chefkoch.de/rezepte/drucken/1108101216891426/2309481a/1/Apfelkuchen-mit-Streuseln-vom-Blech.html</textarea>
+							<textarea class="form-control" id="recipes_url_list" rows="5"></textarea>
 						</div>
 
 					</form>
 				</div>
 				<div class="modal-footer">
 					<button type="button" class="btn btn-secondary"
-						data-dismiss="modal">Close</button>
+						data-dismiss="modal">Abbrechen</button>
 					<button type="button" class="btn btn-primary"
 						onclick="$('#recipes-url-modal').modal('hide');addRecipe();$('#recipes_url_list').val('');">Fertig</button>
 				</div>
-				<div class="alert alert-success" role="alert">
-  This is a success alert—check it out!
-</div>
+
 			</div>
 		</div>
 	</div>
@@ -204,25 +175,23 @@
 					</button>
 				</div>
 				<div class="modal-body">
-					<p>Gib hier den Link oder eine durch ; getrennte Liste von
-						Links zum Rezept oder den Rezepten auf Chefkoch an:</p>
-					<form id="add-chapter">
+					<p>Gib hier den Namen des neuen Kapitels an, z.B. "Backen"</p>
+					<!-- 					<form id="add-chapter"> -->
 
-						<input type="hidden" id="new-chapter-parent" name="chapter"
-							value="">
-						<div class="form-group">
-							<label for="new_chapter_input">Rezeptlinks</label> <input
-								type="text" class="form-control" id="new_chapter_input"></input>
-						</div>
+					<input type="hidden" id="new-chapter-parent" name="chapter"
+						value="">
+					<div class="form-group">
+						<label for="new_chapter_input">Kapitelname</label> <input
+							type="text" class="form-control" id="new_chapter_input"></input>
+					</div>
 
-					</form>
+					<!-- 					</form> -->
 				</div>
 				<div class="modal-footer">
 					<button type="button" class="btn btn-secondary"
-						data-dismiss="modal">Close</button>
+						data-dismiss="modal">Abbrechen</button>
 					<button type="button" class="btn btn-primary"
-						onclick='$("#chapter-modal").modal("hide");addChapter();$("#new_chapter_input").val("");'>Save
-						changes</button>
+						onclick='$("#chapter-modal").modal("hide");addChapter();$("#new_chapter_input").val("");'>Hinzufügen</button>
 				</div>
 			</div>
 		</div>
@@ -239,20 +208,18 @@
 					</button>
 				</div>
 				<div class="modal-body">
-					<p>Gib hier den Link oder eine durch ; getrennte Liste von
-						Links zum Rezept oder den Rezepten auf Chefkoch an:</p>
-					<form id="load-file">
+					<p>Wähle hier die Datei deines gespeicherten Kochbuchs aus:</p>
+					<!-- 					<form id="load-file"> -->
 
-						<input type="file" id="fileinput">
+					<input type="file" id="fileinput">
 
-					</form>
+					<!-- 					</form> -->
 				</div>
 				<div class="modal-footer">
 					<button type="button" class="btn btn-secondary"
-						data-dismiss="modal">Close</button>
+						data-dismiss="modal">Abbrechen</button>
 					<button type="button" class="btn btn-primary"
-						onclick='$("#load-file-modal").modal("hide");uploadBook();'>Save
-						changes</button>
+						onclick='$("#load-file-modal").modal("hide");uploadBook();'>Laden</button>
 				</div>
 			</div>
 		</div>
@@ -274,23 +241,25 @@
 				<div style="margin-top: 4px;">
 
 					<ul class="nav nav-tabs" id="recipe-options-tabs" role="tablist">
-					    <li class="nav-item"><a class="nav-link active"
-							id="recipe-template-tab" data-toggle="tab" href="#recipe-template-options" role="tab"
+						<li class="nav-item"><a class="nav-link active"
+							id="recipe-template-tab" data-toggle="tab"
+							href="#recipe-template-options" role="tab"
 							aria-controls="recipe-template-options" aria-selected="true"><i
 								class="fas fa-newspaper fa-lg" style="margin-right: 4px;"></i>Templates</a></li>
 						<li class="nav-item"><a class="nav-link"
-							id="recipe-image-tab" data-toggle="tab" href="#recipe-image-options" role="tab"
+							id="recipe-image-tab" data-toggle="tab"
+							href="#recipe-image-options" role="tab"
 							aria-controls="recipe-image-options" aria-selected="false"><i
 								class="fas fa-image fa-lg" style="margin-right: 4px;"></i>Bilder</a></li>
 						<li class="nav-item"><a class="nav-link"
-							id="recipe-content-tab" data-toggle="tab" href="#recipe-content-options"
-							role="tab" aria-controls="recipe-content-options"
-							aria-selected="false"><i class="fas fa-file fa-lg"
-								style="margin-right: 4px;"></i>Inhalt</a></li>
+							id="recipe-content-tab" data-toggle="tab"
+							href="#recipe-content-options" role="tab"
+							aria-controls="recipe-content-options" aria-selected="false"><i
+								class="fas fa-file fa-lg" style="margin-right: 4px;"></i>Inhalt</a></li>
 						<li class="nav-item"><a class="nav-link"
-							id="recipe-ingredients-tab" data-toggle="tab" href="#recipe-ingredients-options"
-							role="tab" aria-controls="recipe-ingredients-options"
-							aria-selected="false">Zutaten</a></li>
+							id="recipe-ingredients-tab" data-toggle="tab"
+							href="#recipe-ingredients-options" role="tab"
+							aria-controls="recipe-ingredients-options" aria-selected="false">Zutaten</a></li>
 					</ul>
 					<div class="tab-content" id="recipe-options-tabs-content">
 						{%include 'chefkoch2book/recipe-options.html' %}</div>
@@ -298,10 +267,55 @@
 
 				<div class="modal-footer">
 					<button type="button" class="btn btn-secondary"
-						data-dismiss="modal">Close</button>
+						data-dismiss="modal">Abbrechen</button>
+					<button type="button" class="btn btn-primary" onclick=''>Speichern</button>
+				</div>
+			</div>
+		</div>
+	</div>
+
+
+	<div class="modal" tabindex="-1" role="dialog"
+		id="chapter-options-modal">
+		<div class="modal-dialog" role="document"
+			style="max-width: 700px; width: 700px;">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h5 class="modal-title">Kapiteloptionen</h5>
+					<button type="button" class="close" data-dismiss="modal"
+						aria-label="Close">
+						<span aria-hidden="true">&times;</span>
+					</button>
+				</div>
+				<div style="margin-top: 4px;">
+
+					<ul class="nav nav-tabs" id="chapter-options-tabs" role="tablist">
+
+						<li class="nav-item"><a class="nav-link active"
+							id="chapter-image-tab" data-toggle="tab"
+							href="#chapter-image-options" role="tab"
+							aria-controls="chapter-image-options" aria-selected="true"><i
+								class="fas fa-image fa-lg" style="margin-right: 4px;"></i>Bilder</a></li>
+						<li class="nav-item"><a class="nav-link"
+							id="chapter-template-tab" data-toggle="tab"
+							href="#chapter-template-options" role="tab"
+							aria-controls="chapter-template-options" aria-selected="false"><i
+								class="fas fa-newspaper fa-lg" style="margin-right: 4px;"></i>Templates</a></li>
+						<li class="nav-item"><a class="nav-link"
+							id="chapter-content-tab" data-toggle="tab"
+							href="#chapter-content-options" role="tab"
+							aria-controls="chapter-content-options" aria-selected="false"><i
+								class="fas fa-file fa-lg" style="margin-right: 4px;"></i>Inhalt</a></li>
+					</ul>
+					<div class="tab-content" id="chapter-options-tabs-content">
+						{%include 'chefkoch2book/chapter-options.html' %}</div>
+				</div>
+
+				<div class="modal-footer">
+					<button type="button" class="btn btn-secondary"
+						data-dismiss="modal">Abbrechen</button>
 					<button type="button" class="btn btn-primary"
-						onclick='$("#load-file-modal").modal("hide");uploadBook();'>Save
-						changes</button>
+						id="chapter_options_modal_save_button">Übernehmen</button>
 				</div>
 			</div>
 		</div>
@@ -335,7 +349,8 @@
 	</div>
 
 	<div class="modal" tabindex="-1" role="dialog" id="image-chooser-modal">
-		<div class="modal-dialog" role="document">
+		<div class="modal-dialog" role="document"
+			style="max-width: 600px; width: 600px;">
 			<div class="modal-content">
 				<div class="modal-header">
 					<h5 class="modal-title">Wähle ein Bild aus</h5>
@@ -347,17 +362,16 @@
 				<div class="modal-body">
 					<div style="overflow-y: scroll; height: 400px;">
 						<select class="image-picker show-html" id="recipe-image-picker">
-							
+
 						</select>
 
 					</div>
 				</div>
 				<div class="modal-footer">
 					<button type="button" class="btn btn-secondary"
-						data-dismiss="modal">Close</button>
-					<button id="image-chooser-select-button" type="button" class="btn btn-primary"
-						onclick=''>Save
-						changes</button>
+						data-dismiss="modal">Abbrechen</button>
+					<button id="image-chooser-select-button" type="button"
+						class="btn btn-primary" onclick=''>OK</button>
 				</div>
 			</div>
 		</div>
