@@ -357,8 +357,45 @@ function buildIngredientsTable(ingredients) {
     return result;
 }
 
+function prepareRecipes(chapter) {
+	if ('text' in chapter) {
+		delete chapter.text;
+	}
+	if ('nodes' in chapter) {
+		for (let i = 0; i<chapter.nodes.length; i++){
+			prepareRecipes(chapter.nodes[i]);
+		}
+	} else {
+		if ('images' in chapter) {
+			delete chapter.images;
+		}
+		if ('url' in chapter) {
+			delete chapter.text;
+		}
+	}
+}
+
+
 function buildBook() {
 	
+	
+	let newRecipes = recipes;
+	prepareRecipes(newRecipes[0]);
+	
+
+	
+	var form = $('<form>')
+    .attr("method", "POST")
+    .attr("action", "/create/render_book/")
+    .attr("target", "_blank");
+	var input = $("<input>").attr("type", "hidden")
+    .attr("name", "jsonData")
+    .attr("value", JSON.stringify(newRecipes));
+	form.append(input);
+	form.append('<input type="hidden" name="csrfmiddlewaretoken" value="'+ csrftoken+'">');
+	$('body').append(form);
+	
+	form.submit();
 	
 	
 }
