@@ -25,7 +25,6 @@ var tree_view_options =
 		collapseIcon:"fas fa-angle-up",
 		emptyIcon:"far fa-file-alt",
 		highlightSelected: false,
-			
 }
 
 $(document).ready(document_ready);	
@@ -218,7 +217,7 @@ function saveRecipe(recipeData, chapterString){
 	var id = recipeData.title.hashCode();
 	
 	var deleteButton = '<a onclick="deleteRecipe(\'' + chapterString + '-' + id + '\')" style="margin-left:10px;" href="#" class="float-right"><i class="fas fa-minus-square fa-lg" style="color: gray"></i></a>';
-	var previewButton = '<a onclick="showPreview(\'' + chapterString + '-' + id + '\')" style="margin-left:10px;" href="#" class="float-right"><i class="fas fa-eye fa-lg" style="color: gray"></i></a>'
+	var previewButton = '';//'<a onclick="showPreview(\'' + chapterString + '-' + id + '\')" style="margin-left:10px;" href="#" class="float-right"><i class="fas fa-eye fa-lg" style="color: gray"></i></a>'
 	var optionsButton = '<a onclick="showRecipeOptionsModal(\'' + chapterString + '-' + id + '\');" style="margin-left:10px;" href="#" class="float-right"><i class="fas fa-cog fa-lg" style="color: gray"></i></a>'
 	var dataText = recipeData.title + deleteButton + optionsButton + previewButton;
 	recipeData["text"] = dataText;

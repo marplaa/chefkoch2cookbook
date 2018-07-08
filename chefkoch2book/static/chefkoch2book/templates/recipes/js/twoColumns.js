@@ -4,6 +4,7 @@
 
 var chapters = [];
 var pages = [];
+var options = {chapterBackground: ""}
 
 //var recipes = [];
 
