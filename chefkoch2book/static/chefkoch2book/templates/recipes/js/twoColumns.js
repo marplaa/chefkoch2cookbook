@@ -4,7 +4,10 @@
 
 var chapters = [];
 var pages = [];
-var options = {chapterBackground: ""}
+var options = {chapterBackground: "/static/chefkoch2book/backgrounds/patterns/kitchen_01.jpg",
+		recipesBackground: "/static/chefkoch2book/backgrounds/patterns/kitchen_01.jpg",
+		
+}
 
 //var recipes = [];
 
@@ -45,7 +48,7 @@ function buildChapter(chapter) {
 	if ('nodes' in chapter) {
 		// is indeed chapter
 		addChapterPage(chapter);
-		if (!('nodes' in chapter.nodes[0])){
+		if (chapter.nodes.length > 0 && !('nodes' in chapter.nodes[0])){
 			addPage(chapter);
 		}
 		for (let i = 0; i<chapter.nodes.length; i++){
@@ -156,12 +159,14 @@ function addRecipe(recipe) {
 	let content = $('<div id="c-' + id + '" class="content-container"><span>' + recipe.content + '</span></div>');
 	
 	recipeDiv.append(title,image,ingredients,content);
-	
-	if (page.bg == "") {
+	// TODO background options
+	if (page.bg == "" && page.chapter.options.useFirstRecipeBg) {
 		page.bg = recipe.bg;
 		$(page.elem).find(".background").css("background-image", 'url("' + recipe.bg + '")');
+	} else if (page.bg == "" && page.chapter.options.recipesBg != "") {
+		page.bg = page.chapter.recipesBg;
+		$(page.elem).find(".background").css("background-image", 'url("' + page.bg + '")');
 	}
-	
 	col.append(recipeDiv);
 	let recipeHeight = $('#r-'+id).outerHeight(true);
 
