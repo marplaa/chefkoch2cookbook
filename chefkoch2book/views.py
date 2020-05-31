@@ -66,7 +66,6 @@ def get_recipe_data(url):
     #print(url.replace("/drucken",""))
     #imgs = soup.find("div", {"class": "recipe-image"}).find_all("amp-img")
     image = soup.find("figure").find("img")
-    print(image)
     images = []
     #for image in imgs:
     images.append(image.get('src'))
