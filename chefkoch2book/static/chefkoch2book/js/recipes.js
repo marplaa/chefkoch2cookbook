@@ -244,6 +244,7 @@ function newChapter(title, chapterString){
 	chapter["nodes"]=[];
 	chapter["chapterPath"] = chapterString + "-" + id;
 	chapter["bg"] = getChapterBg(chapterString);
+	chapter["options"] = {useFirstRecipeBg: true, recipesBg: ""};
 	
 	parentChapter.nodes.push(chapter);
 	
@@ -474,8 +475,16 @@ function showChapterOptionsModal(chapterString) {
 	var chapter = getChapterFromString(chapterString);
 	//$('#chapter-bg-chooser-button').attr("onclick", "showChapterImagePicker('" + chapterString + "');");
 	$('#chapter-bg-chooser-button').attr("onclick", "showChapterImagePicker('" + chapterString + "');");
-	$('#chapter-bg-thumb').attr("src", chapter.bg);
+	if (chapter.bg != "") {
+		$('#chapter-bg-thumb').attr("src", chapter.bg);
+	}
+	if (chapter.options.recipesBg != "") {
+		$('#chapter-recipes-bg-thumb').attr("src", chapter.options.recipesBg);
+	}
 	$('#chapter_options_modal_save_button').attr("onclick", "saveChapterOptions('" + chapterString + "');$('#chapter-options-modal').modal('hide');");
+	$('#use-first-recipe-bg-checkbox').prop("checked", chapter.options.useFirstRecipeBg);
+	$('#chapter-recipes-bg').val(chapter.options.recipesBg);
+	$('#chapter_bg_url_input').val(chapter.bg);
 	$("#chapter-options-modal").modal("show");
 	
 }
@@ -484,6 +493,8 @@ function saveChapterOptions(chapterString) {
 	let chapter = getChapterFromString(chapterString);
 	
 	chapter['bg'] = $('#chapter_bg_url_input').val();
+	chapter.options = {useFirstRecipeBg: $('#use-first-recipe-bg-checkbox').prop('checked'),
+			recipesBg: $('#chapter-recipes-bg').val()};
 
 	
 }
