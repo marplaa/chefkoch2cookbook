@@ -17,6 +17,7 @@ import json
 
 def makelist(table):
     result = []
+
     allrows = table.findAll('tr')
     for row in allrows:
         result.append([])
@@ -43,7 +44,6 @@ def index(request):
 def get_recipe_data(url):
     
     recipe = {"url": url}
-    
     soup = soupify(url)
     content = soup.find("div", {"class": "print__content_left"}).find("p")
     #print(soup.find("div", {"class": "ds-box"}).get_text())

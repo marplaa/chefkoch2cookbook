@@ -223,7 +223,7 @@ function saveRecipe(recipeData, chapterString){
 	recipeData["text"] = dataText;
 	recipeData["id"] = id;
 	recipeData['img'] = recipeData['images'][0];
-	recipeData['bg'] = recipeData['images'][1];
+	recipeData['bg'] = recipeData['images'][0];
 	
 	chapter["nodes"].push(recipeData);
 	chapter["nodes"] = _.sortBy(chapter["nodes"], "title");
