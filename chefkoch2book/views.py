@@ -45,23 +45,33 @@ def get_recipe_data(url):
     recipe = {"url": url}
     
     soup = soupify(url)
-    content = soup.find("div", {"class": "content-left"})
+    content = soup.find("div", {"class": "print__content_left"}).find("p")
+    #print(soup.find("div", {"class": "ds-box"}).get_text())
     
-    recipe['title'] = soup.find("div", {"id": "content"}).find("h1").getText()
+    recipe['title'] = soup.find("a", {"class": "bi-recipe-title"}).getText()
     try:
         recipe['subtitle'] = soup.find("div", {"id": "content"}).find("strong").getText()
     except Exception:
         pass
     
-    recipe['ingredients'] = makelist(soup.find("table", {"class": "incredients"}))
-    imagesdivs = soup.find_all('div', {"class": "gallery-imagewrapper"})
-    recipe['recipe_info'] = makelist(content.find("table", {'id':'recipe-info'}).extract())
+    recipe['ingredients'] = makelist(soup.find("table", {"class": "print__ingredients"}))
+    
+    recipe['recipe_info'] = makelist(soup.find("table", {'id':'recipe-info'}).extract())
     recipe['content'] = re.sub(r'\s+',' ',content.get_text('</br>', strip=True)).replace('\n', '')
     
+    # get images
+    
+    #soup = soupify(url.replace("/drucken",""))
+    #print(soup.find("div", {"class": "recipe-image"}))
+    #print(url.replace("/drucken",""))
+    #imgs = soup.find("div", {"class": "recipe-image"}).find_all("amp-img")
+    image = soup.find("figure").find("img")
+    print(image)
     images = []
-    for imagediv in imagesdivs:
-        images.append(imagediv.find('img').get('data-bigimage'))
+    #for image in imgs:
+    images.append(image.get('src'))
     recipe['images'] = images
+    print(images)
     
     return recipe
     
