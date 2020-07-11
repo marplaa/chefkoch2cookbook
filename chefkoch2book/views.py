@@ -1,7 +1,9 @@
 from django.shortcuts import render
 from django.http import HttpResponse, JsonResponse
 from django.views.decorators.csrf import ensure_csrf_cookie
+from django.conf import settings
 import re
+import os
 
 from bs4 import BeautifulSoup
 import urllib3
@@ -32,7 +34,10 @@ def makelist(table):
 
 @ensure_csrf_cookie
 def index(request):
-    return render(request, 'chefkoch2book/index.html', {'text' : 'hallo'})
+    bg_images_list = os.listdir(os.path.join(settings.BASE_DIR, "chefkoch2book/static/chefkoch2book/backgrounds/chapters"))
+    #backgoundimages =
+    
+    return render(request, 'chefkoch2book/index.html', {'backgroundimages' : json.dumps(bg_images_list)})
 
 
 def get_recipe_data(url):
@@ -82,30 +87,67 @@ def get_recipe(request):
     return render(request, 'chefkoch2book/recipes/normal-preview.html', output)
 
 def soupify(url):
+    
+    if "/drucken/" not in url:
+        url = url.replace("/rezepte/", "/rezepte/drucken/")
     http = urllib3.PoolManager()
     response = http.request('GET', url)
 
     return BeautifulSoup(response.data, 'html.parser')
 
-def get_image_grid(request, url):
-    soup = soupify('https://www.chefkoch.de/rezepte/drucken/1108101216891426/2309481a/1/Apfelkuchen-mit-Streuseln-vom-Blech.html')
-    imagesdivs = soup.find_all('div', {"class": "gallery-imagewrapper"})
-    images = []
-    for imagediv in imagesdivs:
-        images.append(imagediv.find('img').get('data-bigimage'))
-    
 
-def get_collage(request, url):
-    soup = soupify('https://www.chefkoch.de/rezepte/drucken/1108101216891426/2309481a/1/Apfelkuchen-mit-Streuseln-vom-Blech.html')
-    imagesdivs = soup.find_all('div', {"class": "gallery-imagewrapper"})
-    images = []
-    for imagediv in imagesdivs:
-        images.append(imagediv.find('img').get('data-bigimage'))
-        
-    collage_image = picture_grid.create_grid(images, 4, 4, 1000, 1000, 10, 0)
+
+def get_image_grid(request):
     
+    images = request.GET['urls'];
+    
+    collage_image = picture_grid.create_grid(images, 4, 4, 2100, 2970, 10, 0)
     response = HttpResponse(content_type="image/png")
     collage_image.save(response, "png", dpi=(72,72))
     return response
     
     
+    #soup = soupify('https://www.chefkoch.de/rezepte/drucken/1108101216891426/2309481a/1/Apfelkuchen-mit-Streuseln-vom-Blech.html')
+    #imagesdivs = soup.find_all('div', {"class": "gallery-imagewrapper"})
+    #images = []
+    #for imagediv in imagesdivs:
+    #    images.append(imagediv.find('img').get('data-bigimage'))
+    
+
+
+def get_collage(request, url):
+    soup = soupify(url)
+    imagesdivs = soup.find_all('div', {"class": "gallery-imagewrapper"})
+    images = []
+    for imagediv in imagesdivs:
+        images.append(imagediv.find('img').get('data-bigimage'))
+        
+    collage_image = picture_grid.create_grid(images, 5, 10, int(2100/2), int(2970/2), 10, 0)
+    
+    response = HttpResponse(content_type="image/png")
+    collage_image.save(response, "png", dpi=(72,72))
+    return response
+
+def get_normal_template(request):
+    if request.POST['template'] is not None:
+        template = request.POST['template']
+    
+    return render(request, 'chefkoch2book/recipes/normal.html')
+
+def render_recipe(request, template):
+
+    data = json.loads(request.POST['jsonData'])
+
+    
+    return render(request, 'chefkoch2book/recipes/'+ template + '/' + template +'.html', data)
+
+
+
+def render_book(request):
+    bg_images_list = os.listdir(os.path.join(settings.BASE_DIR, "chefkoch2book/static/chefkoch2book/backgrounds/chapters"))
+    recipes = request.POST['jsonData']
+    data = {"recipes": recipes}
+    
+
+    return render(request, 'chefkoch2book/recipes/twoColumns/twoColumns.html', data)
+

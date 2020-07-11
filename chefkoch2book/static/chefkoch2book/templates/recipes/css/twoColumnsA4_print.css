@@ -1,0 +1,205 @@
+@charset "UTF-8";
+
+@media print { body { -webkit-print-color-adjust: exact; } }
+
+body {
+	margin: 0px;
+}
+
+div.page {
+	position: relative;
+	width: 214mm;
+	height: 303mm;
+	z-index: 9999;
+	page-break-after: always;
+}
+
+div.background {
+	position: absolute;
+	background-size: cover;
+	-webkit-filter: blur(3px);
+	filter: blur(3px);
+	left: 0px;
+	top: 0px;
+	width: 214mm;
+	height: 303mm;
+	z-index: 0;
+}
+
+div.transbox {
+	padding: 4px;
+	background: rgba(255, 255, 255, 0.7)
+}
+
+div.chapter-container {
+/* 	height: 10mm; */
+	position: relative;
+	left: 0px;
+	top: 0px;
+	padding: 3mm 2mm 2mm 2mm;
+	background: rgba(255, 255, 255, 0.7);
+	margin-bottom: 3mm;
+}
+
+div.l-page .chapter-container {
+	text-align: left;
+}
+
+.r-page {
+
+}
+
+
+
+.l-page {
+
+}
+
+div.r-page .chapter-container {
+	text-align: right;
+}
+
+div.title-container {
+	padding: 2mm 2mm 3mm 2mm;
+	font-size: 12pt;
+	background: rgba(255, 255, 255, 0.7);
+}
+
+div.content-container {
+	font-size: 12px;
+	padding: 3mm;
+	line-height: 1.3em;
+	background: rgba(255, 255, 255, 0.7);
+	text-align: justify;
+	/* 		margin-bottom: 3mm; */
+}
+
+div.ingredients-container {
+	/* 		position: absolute;  */
+	/*  		left: 130mm;  */
+	/*  		top: 200mm; */
+	/* 		width: 100mm; */
+	/* 		position: absolute;  */
+	width: 46mm;
+	float: right;
+	padding: 2mm 0mm 2mm 2mm;
+}
+
+div.col {
+	width: 104mm;
+	height: 280mm;
+}
+
+div.left-col {
+	position: absolute;
+	left: 0px;
+}
+
+div.right-col {
+	position: absolute;
+	left: 110mm;
+}
+
+#qr-code {
+	position: absolute;
+	bottom: 2px;
+	right: 10mm;
+	width: 20mm;
+	height: 20mm;
+}
+
+td.amount {
+	text-align: right;
+	font-weight: bold;
+	padding-right: 5px;
+	font-size: 12px;
+	width: 10mm;
+}
+
+td.ingredient {
+	font-size: 12px;
+}
+
+img.image {
+	width: 52mm;
+	float: left;
+	height: 50mm;
+	margin-right: 2mm;
+	margin-bottom: 2mm;
+	object-fit: cover;
+	object-position: 50% 50%;
+}
+
+#title-content-container {
+	float: left;
+	margin-right: 6mm;
+}
+
+.clearfix::after {
+	content: "";
+	clear: both;
+	display: table;
+}
+
+.ingredients table {
+	table-layout: fixed;
+	word-wrap: break-word;
+}
+
+div.footer {
+	position: absolute;
+	top: 294mm;
+	left: 0px;
+	width: 208mm;
+	padding: 3mm 3mm 4mm 3mm;
+	background: rgba(255, 255, 255, 0.7);
+}
+
+
+.l-page .footer {
+	text-align: left;
+}
+
+.r-page .footer{
+	text-align: right;
+}
+
+div.chapter-page {
+	position: absolute;
+	background-size: cover;
+	background-position: 50% 50%;
+	left: 0px;
+	top: 0px;
+	width: 214mm;
+	height: 303mm;
+	z-index: 0;
+}
+
+div.r-page .chapter-page-title-container {
+	position: relative;
+	top: 30mm;
+	left: 59mm;
+	width: 150mm;
+	padding: 10px;
+}
+
+div.l-page .chapter-page-title-container {
+	position: relative;
+	top: 30mm;
+	left: 0px;
+	width: 150mm;
+	text-align: right;
+}
+
+.chapter-page-title-container span {
+	font-size: 36pt;
+}
+
+.chapter-page-title-container {
+	padding: 15px;
+	background: rgba(255, 255, 255, 0.7);
+}
+
+.recipe-container {
+	margin-bottom: 3mm;
+}

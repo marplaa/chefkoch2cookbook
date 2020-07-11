@@ -9,7 +9,10 @@ from . import views
 
 urlpatterns = [
     path('', views.index, name='index'),
-    path('get_collage/<url>/', views.get_collage, name='collage'),
+    path('get_collage/<path:url>/', views.get_collage, name='collage'),
     path('get_recipe/', views.get_recipe, name='recipe'),
     path('get_recipe_data_json/', views.get_recipe_data_json, name='recipe_data_json'),
+    path('normal_template/', views.get_normal_template, name='get_normal_template'),
+    path('render_recipe/<template>/', views.render_recipe, name='render_recipe'),
+    path('render_book/', views.render_book, name='render_book'),
 ]

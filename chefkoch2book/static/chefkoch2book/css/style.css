@@ -1,7 +1,11 @@
 @charset "UTF-8";
 
 .recipe-list-button {
-	margin-left:3px;
+	margin:0px 3px 0px 3px;
+}
+
+.recipe-list-button > i{
+	margin:0px 3px 0px 3px;
 }
 
 /* Space out content a bit */
@@ -87,4 +91,12 @@ body {
   .jumbotron {
     border-bottom: 0;
   }
+}
+
+.recipe-img-prev {
+	object-fit: cover;
+	object-position: 50% 50%;
+	width: 200px;
+	height: 200px;
+	display: block;
 }
